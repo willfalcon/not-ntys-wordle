@@ -25,14 +25,14 @@ module.exports = {
       __key: 'images',
     },
     `gatsby-plugin-netlify`,
-    {
-      resolve: `gatsby-plugin-manifest`,
-      options: {
-        name: `NOT NYT's Wordle`,
-        start_url: `/`,
-        theme_color: `#EF4E58`,
-        icon: `src/images/favicon.png`,
-      },
-    },
+    // {
+    //   resolve: `gatsby-plugin-manifest`,
+    //   options: {
+    //     name: `NOT NYT's Wordle`,
+    //     start_url: `/`,
+    //     theme_color: `#EF4E58`,
+    //     icon: `src/images/favicon.png`,
+    //   },
+    // },
   ],
 };
