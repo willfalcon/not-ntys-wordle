@@ -30,6 +30,7 @@ const SiteContextProvider = ({ children, data }) => {
 
   const [notAWord, setNotAWord] = useState(false);
   const [notAWordModal, setNotAWordModal] = useState(false);
+  const [solved, setSolved] = useState(false);
 
   async function logAnswer() {
     const attempt = letters[workingRow];
@@ -53,8 +54,6 @@ const SiteContextProvider = ({ children, data }) => {
         const raw = await fetch(`/.netlify/functions/check-attempt?word=${attempt.join('')}`);
         const res = await raw.json();
 
-        console.log(res);
-
         const finishedAttempt = produce(attempts, draft => {
           draft[workingRow] = res.result;
         });
@@ -65,14 +64,20 @@ const SiteContextProvider = ({ children, data }) => {
           draft[workingRow] = true;
         });
         setRowLocks(newRowLocks);
-        setWorkingRow(workingRow === 6 ? workingRow : workingRow + 1);
-        setWorkingBox(0);
+
+        if (res.solved) {
+          setWorkingRow(6);
+          setWorkingBox(5);
+          setSolved(true);
+        } else {
+          setWorkingRow(workingRow === 6 ? workingRow : workingRow + 1);
+          setWorkingBox(0);
+        }
       }
     }
   }
 
   const keypressHandler = e => {
-    console.log(e);
     if (e.key === 'Backspace') {
       backspace();
     } else if (lettersList.includes(e.key)) {
@@ -90,7 +95,7 @@ const SiteContextProvider = ({ children, data }) => {
   }, [workingRow, workingBox]);
 
   const backspace = () => {
-    if (workingBox !== 0) {
+    if (workingBox !== 0 && !solved) {
       const newLetters = produce(letters, draft => {
         draft[workingRow][workingBox - 1] = '';
       });
@@ -126,6 +131,7 @@ const SiteContextProvider = ({ children, data }) => {
         notAWord,
         setNotAWord,
         notAWordModal,
+        solved,
       }}
     >
       {children}

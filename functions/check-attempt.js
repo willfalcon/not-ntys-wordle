@@ -15,8 +15,10 @@ exports.handler = async function (event, context) {
     }
   });
 
+  const solved = result.filter(status => status !== 'correct');
+
   return {
     statusCode: 200,
-    body: JSON.stringify({ result }),
+    body: JSON.stringify({ result, solved: !solved.length }),
   };
 };

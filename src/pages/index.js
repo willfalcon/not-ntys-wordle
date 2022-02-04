@@ -6,11 +6,13 @@ import Board from '../components/Board/Board';
 import Keyboard from '../components/Keyboard/Keyboard';
 import NotAWord from '../components/NotAWord';
 import Solved from '../components/Solved';
+import Meta from '../components/Meta';
 
 const index = () => {
   return (
     <Wrapper>
-      <Heading>Not NYT's Wordle</Heading>
+      <Meta />
+      <Heading>Skwahdle</Heading>
       <Board />
       <Keyboard />
       <NotAWord />

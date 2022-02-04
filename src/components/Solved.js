@@ -1,5 +1,6 @@
-import React from 'react';
-import { MdSwitchRight } from 'react-icons/md';
+import { rgba } from 'polished';
+import React, { useState } from 'react';
+import { IoClose } from 'react-icons/io5';
 import { animated, useTransition } from 'react-spring';
 import styled from 'styled-components';
 import useSiteContext from './SiteContext';
@@ -23,27 +24,55 @@ const Attempt = ({ attempt }) => {
 };
 
 const Solved = () => {
-  const { attempts } = useSiteContext();
+  const { attempts, solved } = useSiteContext();
+  const [showModal, setShowModal] = useState(true);
 
   const filteredAttempts = attempts.filter(attempt => !attempt.includes(null));
-  console.log(filteredAttempts);
 
-  return (
-    <>
-      <SolvedModal>
-        <h2>Good Job!</h2>
-        <button>Share</button>
+  const transition = useTransition(solved && showModal, {
+    from: { opacity: 0 },
+    enter: { opacity: 1 },
+    leave: { opacity: 0 },
+  });
 
-        <pre className="copy-content">
-          <p>Not NTY's Wordle</p>
-          {filteredAttempts.map((attempt, index) => (
-            <Attempt attempt={attempt} key={index} />
-          ))}
-        </pre>
-      </SolvedModal>
-    </>
+  return transition(
+    (styles, item) =>
+      item && (
+        <>
+          <Backdrop style={styles} />
+          <SolvedModal style={styles}>
+            <button
+              className="close"
+              onClick={() => {
+                setShowModal(false);
+              }}
+            >
+              <IoClose />
+            </button>
+            <h2>Good Job!</h2>
+            <button className="share">Share</button>
+
+            <pre className="copy-content">
+              <p>Not NTY's Wordle</p>
+              {filteredAttempts.map((attempt, index) => (
+                <Attempt attempt={attempt} key={index} />
+              ))}
+            </pre>
+          </SolvedModal>
+        </>
+      )
   );
 };
+
+const Backdrop = styled(animated.div)`
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  left: 0;
+  top: 0;
+  background: ${rgba('white', 0.65)};
+  z-index: 1;
+`;
 
 const SolvedModal = styled(animated.div)`
   position: absolute;
@@ -60,7 +89,20 @@ const SolvedModal = styled(animated.div)`
   h2 {
     margin: 0 0 2rem;
   }
-  button {
+  .close {
+    background: transparent;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    border: 0;
+    font-weight: bold;
+    cursor: pointer;
+    svg {
+      width: 20px;
+      height: 20px;
+    }
+  }
+  .share {
     text-transform: uppercase;
     background: green;
     color: white;
