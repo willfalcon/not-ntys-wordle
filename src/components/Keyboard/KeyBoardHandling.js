@@ -69,7 +69,7 @@ const KeyBoardHandling = ({ children }) => {
     };
   }, [workingRow, workingBox, specialKey]);
 
-  return <KeyboardContext.Provider value={{ setNextLetter }}>{children}</KeyboardContext.Provider>;
+  return <KeyboardContext.Provider value={{ setNextLetter, backspace }}>{children}</KeyboardContext.Provider>;
 };
 
 export { KeyboardContext };
