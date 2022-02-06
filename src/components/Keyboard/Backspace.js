@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext} from 'react';
 import styled from 'styled-components';
 import produce from 'immer';
 import { MdOutlineBackspace } from 'react-icons/md';
@@ -6,8 +6,10 @@ import { StyledKey } from './Key';
 
 import useSiteContext from '../SiteContext';
 
+import { KeyboardContext } from './KeyBoardHandling';
+
 const Backspace = () => {
-  const { backspace } = useSiteContext();
+  const { backspace } = useContext(KeyboardContext);
   return (
     <BackspaceKey onClick={backspace}>
       <MdOutlineBackspace />
