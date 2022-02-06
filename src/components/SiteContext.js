@@ -1,13 +1,12 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import produce from 'immer';
 
-import lettersList from './lettersList';
-
 const SiteContext = createContext();
 
 const SiteContextProvider = ({ children, data }) => {
   const [workingRow, setWorkingRow] = useState(0);
   const [workingBox, setWorkingBox] = useState(0);
+
   const [letters, setLetters] = useState([
     ['', '', '', '', ''],
     ['', '', '', '', ''],
@@ -32,14 +31,44 @@ const SiteContextProvider = ({ children, data }) => {
   const [notAWordModal, setNotAWordModal] = useState(false);
   const [solved, setSolved] = useState(false);
 
+  useEffect(() => {
+    const storageLetters = localStorage.getItem('letters');
+    console.log(JSON.parse(storageLetters));
+    if (storageLetters) {
+      const newLetters = JSON.parse(storageLetters);
+      setLetters(newLetters);
+    }
+    const storageAttempts = localStorage.getItem('attempts');
+    if (storageAttempts) {
+      const newAttempts = JSON.parse(storageAttempts);
+      setAttempts(newAttempts);
+    }
+    const storageRowLocks = localStorage.getItem('rowLocks');
+    if (storageRowLocks) {
+      setRowLocks(JSON.parse(storageRowLocks));
+    }
+    const storageWorkingRow = localStorage.getItem('workingRow');
+    if (storageWorkingRow) {
+      setWorkingRow(parseInt(storageWorkingRow));
+    }
+    const storageWorkingBox = localStorage.getItem('workingBox');
+    if (storageWorkingBox) {
+      setWorkingBox(parseInt(storageWorkingBox));
+    }
+    const storageSolved = localStorage.getItem('solved');
+    if (storageSolved) {
+      setSolved(storageSolved);
+    }
+  }, []);
+
   async function logAnswer() {
     const attempt = letters[workingRow];
 
     if (!attempt.includes('')) {
-      const raw = await fetch(`/.netlify/functions/check-word?word=${attempt.join('')}`);
-      const res = await raw.json();
+      const rawCheckExists = await fetch(`/.netlify/functions/check-word?word=${attempt.join('')}`);
+      const checkExists = await rawCheckExists.json();
 
-      if (!res.found) {
+      if (!checkExists.found) {
         setNotAWord(true);
         setNotAWordModal(true);
         setTimeout(() => {
@@ -48,71 +77,42 @@ const SiteContextProvider = ({ children, data }) => {
         setTimeout(() => {
           setNotAWordModal(false);
         }, 2000);
+
+        return;
       }
 
-      if (res.found) {
-        const raw = await fetch(`/.netlify/functions/check-attempt?word=${attempt.join('')}`);
-        const res = await raw.json();
+      const rawCheckAttempt = await fetch(`/.netlify/functions/check-attempt?word=${attempt.join('')}`);
+      const checkAttempt = await rawCheckAttempt.json();
 
-        const finishedAttempt = produce(attempts, draft => {
-          draft[workingRow] = res.result;
-        });
+      const finishedAttempt = produce(attempts, draft => {
+        draft[workingRow] = checkAttempt.result;
+      });
 
-        setAttempts(finishedAttempt);
+      localStorage.setItem('attempts', JSON.stringify(finishedAttempt));
+      setAttempts(finishedAttempt);
 
-        const newRowLocks = produce(rowLocks, draft => {
-          draft[workingRow] = true;
-        });
-        setRowLocks(newRowLocks);
+      const newRowLocks = produce(rowLocks, draft => {
+        draft[workingRow] = true;
+      });
+      localStorage.setItem('rowLocks', JSON.stringify(newRowLocks));
+      setRowLocks(newRowLocks);
 
-        if (res.solved) {
-          setWorkingRow(6);
-          setWorkingBox(5);
-          setSolved(true);
-        } else {
-          setWorkingRow(workingRow === 6 ? workingRow : workingRow + 1);
-          setWorkingBox(0);
-        }
+      if (checkAttempt.solved) {
+        localStorage.setItem('workingRow', 6);
+        setWorkingRow(6);
+        localStorage.setItem('workingBox', 5);
+        setWorkingBox(5);
+        localStorage.setItem('solved', true);
+        setSolved(true);
+      } else {
+        const newWorkingRow = workingRow === 6 ? workingRow : workingRow + 1;
+        localStorage.setItem('workingRow', newWorkingRow);
+        setWorkingRow(newWorkingRow);
+        localStorage.setItem('workingBox', 0);
+        setWorkingBox(0);
       }
     }
   }
-
-  const keypressHandler = e => {
-    if (e.key === 'Backspace') {
-      backspace();
-    } else if (lettersList.includes(e.key)) {
-      setNextLetter(e.key.toLowerCase());
-    } else if (e.key === 'Enter') {
-      logAnswer();
-    }
-  };
-
-  useEffect(() => {
-    window.addEventListener('keydown', keypressHandler);
-    return () => {
-      window.removeEventListener('keydown', keypressHandler);
-    };
-  }, [workingRow, workingBox]);
-
-  const backspace = () => {
-    if (workingBox !== 0 && !solved) {
-      const newLetters = produce(letters, draft => {
-        draft[workingRow][workingBox - 1] = '';
-      });
-      setLetters(newLetters);
-      setWorkingBox(workingBox - 1);
-    }
-  };
-
-  const setNextLetter = key => {
-    if (workingBox !== 5) {
-      const newLetters = produce(letters, draft => {
-        draft[workingRow][workingBox] = key;
-      });
-      setLetters(newLetters);
-      setWorkingBox(workingBox == 5 ? 5 : workingBox + 1);
-    }
-  };
 
   return (
     <SiteContext.Provider
@@ -123,8 +123,7 @@ const SiteContextProvider = ({ children, data }) => {
         setWorkingBox,
         letters,
         setLetters,
-        setNextLetter,
-        backspace,
+
         attempts,
         logAnswer,
         rowLocks,

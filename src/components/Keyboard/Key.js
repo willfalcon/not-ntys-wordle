@@ -1,11 +1,11 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import styled from 'styled-components';
 
-import useSiteContext from '../SiteContext';
+import { KeyboardContext } from './KeyBoardHandling';
 import { media } from '../theme';
 
 const Key = ({ children }) => {
-  const { setNextLetter } = useSiteContext();
+  const { setNextLetter } = useContext(KeyboardContext);
 
   return (
     <StyledKey

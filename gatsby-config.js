@@ -30,9 +30,10 @@ module.exports = {
       options: {
         name: `Skwahdle`,
         start_url: `/`,
-        theme_color: `#EF4E58`,
+        theme_color: `#660000`,
         icon: `src/images/favicon.png`,
       },
     },
+    `gatsby-plugin-offline`,
   ],
 };
