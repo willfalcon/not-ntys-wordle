@@ -1,8 +1,9 @@
 import { css } from 'styled-components';
 
 const theme = {
-  dark: '#222222',
-  yellow: '#c9b458',
+  dark: '#454851',
+  yellow: '#BFAE48',
+  green: '#2D936C',
   bs: '0 12px 24px 0 rgba(0, 0, 0, 0.09)',
   sizes: {
     medium: 320,

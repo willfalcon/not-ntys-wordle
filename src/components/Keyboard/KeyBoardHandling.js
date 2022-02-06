@@ -10,6 +10,7 @@ const KeyBoardHandling = ({ children }) => {
   const { workingRow, workingBox, solved, letters, setLetters, setWorkingBox, logAnswer } = useSiteContext();
 
   const [specialKey, setSpecialKey] = useState(false);
+  console.log(specialKey);
 
   const backspace = () => {
     if (workingBox !== 0 && !solved) {
@@ -66,7 +67,7 @@ const KeyBoardHandling = ({ children }) => {
     return () => {
       window.removeEventListener('keydown', keypressHandler);
     };
-  }, [workingRow, workingBox]);
+  }, [workingRow, workingBox, specialKey]);
 
   return <KeyboardContext.Provider value={{ setNextLetter }}>{children}</KeyboardContext.Provider>;
 };

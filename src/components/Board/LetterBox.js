@@ -100,10 +100,10 @@ const Box = styled(animated.div)`
   .back {
     border: 2px solid
       ${({ status, theme }) =>
-        status === 'correct' ? 'green' : status === 'kinda' ? theme.yellow : status === 'wrong' ? 'gray' : 'lightgray'};
+        status === 'correct' ? theme.green : status === 'kinda' ? theme.yellow : status === 'wrong' ? theme.dark : 'lightgray'};
     color: ${({ status, theme }) => (status ? 'white' : theme.dark)};
     background-color: ${({ status, theme }) =>
-      status === 'correct' ? 'green' : status === 'kinda' ? theme.yellow : status === 'wrong' ? 'gray' : 'transparent'};
+      status === 'correct' ? theme.green : status === 'kinda' ? theme.yellow : status === 'wrong' ? theme.dark : 'transparent'};
     transform: rotateX(180deg);
   }
 `;
