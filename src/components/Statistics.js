@@ -23,7 +23,7 @@ const StatsButton = styled(IconButton)`
 function generateCopyText(attempts) {
   const filteredAttempts = attempts.filter(attempt => !attempt.includes(null));
 
-  const heading = `Skwahdle 1 ${filteredAttempts.length}/6 \n\n`;
+  const heading = `Skwahdle 2 ${filteredAttempts.length}/6 \n\n`;
   const renderAttempt = attempt => {
     return attempt
       .map(letter => {

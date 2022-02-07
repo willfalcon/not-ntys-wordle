@@ -1,5 +1,5 @@
 exports.handler = async function (event, context) {
-  const word = 'butts';
+  const word = 'blank';
   const params = event.queryStringParameters;
 
   const correctArray = word.split('');
