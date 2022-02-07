@@ -10,7 +10,8 @@ import { media } from './theme';
 import { Backdrop, Modal } from './Modal';
 import DistributionChart from './DistributionChart';
 import useSiteContext from './SiteContext';
-import { blankStatsObj } from './setStats';
+import { blankStatsObj } from './updateStats';
+import useLocalStorage from './useLocalStorage';
 
 const StatsButton = styled(IconButton)`
   grid-row: 2 / 3;
@@ -45,7 +46,7 @@ function generateCopyText(attempts) {
 }
 
 const Statistics = () => {
-  const { statsOpen, setStatsOpen, attempts, useAlert } = useSiteContext();
+  const { statsOpen, setStatsOpen, attempts, useAlert, stats, solved } = useSiteContext();
 
   const showAlert = useAlert('Results copied to clipboard.');
 
@@ -54,13 +55,6 @@ const Statistics = () => {
     enter: { opacity: 1 },
     leave: { opacity: 0 },
   });
-
-  const [stats, setStats] = useState(blankStatsObj);
-
-  useEffect(() => {
-    const stats = JSON.parse(localStorage.getItem('stats'));
-    setStats(stats);
-  }, []);
 
   return (
     <>
@@ -85,7 +79,7 @@ const Statistics = () => {
                 >
                   <IoClose />
                 </button>
-
+                {solved && <h2>You've solved it.</h2>}
                 <h3 className="text-center">Statistics</h3>
                 <div className="flex">
                   <div className="stat">

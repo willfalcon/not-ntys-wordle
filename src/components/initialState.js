@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import useLocalStorage from './useLocalStorage';
+import { blankStatsObj } from './updateStats';
 
 function useInitialState() {
   const [statsOpen, setStatsOpen] = useState(false);
@@ -30,6 +31,8 @@ function useInitialState() {
   const [notAWordModal, setNotAWordModal] = useState(false);
   const [solved, setSolved] = useLocalStorage('solved', false);
   const [failed, setFailed] = useLocalStorage('failed', false);
+
+  const [stats, setStats] = useLocalStorage('stats', blankStatsObj);
 
   function resetState(edition) {
     setLetters([
@@ -78,6 +81,8 @@ function useInitialState() {
     setSolved,
     failed,
     setFailed,
+    stats,
+    setStats,
     resetState,
   };
 }

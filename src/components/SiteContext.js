@@ -1,7 +1,7 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import produce from 'immer';
 
-import setStats from './setStats';
+import updateStats from './updateStats';
 import Alert from './Alert';
 
 import useInitialState from './initialState';
@@ -31,6 +31,8 @@ const SiteContextProvider = ({ children, data }) => {
     failed,
     setFailed,
     resetState,
+    stats,
+    setStats,
   } = useInitialState();
 
   const { edition } = data;
@@ -85,14 +87,14 @@ const SiteContextProvider = ({ children, data }) => {
         setWorkingRow(6);
         setWorkingBox(5);
         setSolved(true);
-        setStats(finishedAttempts, true);
+        updateStats(finishedAttempts, true, stats, setStats);
         setStatsOpen(true);
       } else {
         const newWorkingRow = workingRow === 6 ? workingRow : workingRow + 1;
         setWorkingRow(newWorkingRow);
         if (newWorkingRow === 6) {
           setFailed(true);
-          setStats(finishedAttempts, false);
+          updateStats(finishedAttempts, false, stats, setStats);
           setStatsOpen(true);
         }
         setWorkingBox(0);
@@ -134,6 +136,8 @@ const SiteContextProvider = ({ children, data }) => {
         statsOpen,
         setStatsOpen,
         useAlert,
+        stats,
+        setStats,
       }}
     >
       {children}

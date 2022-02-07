@@ -3,7 +3,6 @@ import { animated, useTransition } from 'react-spring';
 import styled from 'styled-components';
 
 const Alert = ({ showAlert, alertText }) => {
-  console.log(alertText);
   const transition = useTransition(showAlert, {
     from: { opacity: 0 },
     enter: { opacity: 1 },

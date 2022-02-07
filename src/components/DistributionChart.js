@@ -4,7 +4,6 @@ import styled from 'styled-components';
 const DistributionChart = ({ stats }) => {
   const { guesses } = stats;
   const guessesArr = [guesses[1], guesses[2], guesses[3], guesses[4], guesses[5], guesses[6]];
-  console.log(guessesArr);
 
   const max = guessesArr.reduce((a, b) => (b > a ? b : a));
 
