@@ -7,9 +7,14 @@
     "develop": "gatsby develop",
     "start": "gatsby clean && gatsby develop -H 0.0.0.0",
     "build": "gatsby build",
+    "netlify-build": "netlify build",
     "serve": "gatsby serve",
     "clean": "gatsby clean",
-    "dev": "netlify dev"
+    "help": "netlify help",
+    "dev": "netlify dev",
+    "link": "netlify link",
+    "login": "netlify login",
+    "logout": "netlify logout"
   },
   "author": "",
   "license": "ISC",

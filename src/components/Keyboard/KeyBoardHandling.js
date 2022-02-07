@@ -16,10 +16,9 @@ const KeyBoardHandling = ({ children }) => {
       const newLetters = produce(letters, draft => {
         draft[workingRow][workingBox - 1] = '';
       });
-      localStorage.setItem('letters', JSON.stringify(newLetters));
       setLetters(newLetters);
       const newWorkingBox = workingBox - 1;
-      localStorage.setItem('workingBox', newWorkingBox);
+
       setWorkingBox(newWorkingBox);
     }
   };
@@ -29,11 +28,9 @@ const KeyBoardHandling = ({ children }) => {
       const newLetters = produce(letters, draft => {
         draft[workingRow][workingBox] = key;
       });
-      localStorage.setItem('letters', JSON.stringify(newLetters));
+
       setLetters(newLetters);
       const newWorkingBox = workingBox == 5 ? 5 : workingBox + 1;
-
-      localStorage.setItem('workingBox', newWorkingBox);
       setWorkingBox(newWorkingBox);
     }
   };

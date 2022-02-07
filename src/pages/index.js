@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import { graphql } from 'gatsby';
 
 import Wrapper from '../components/Wrapper';
 import Board from '../components/Board/Board';
@@ -9,9 +10,10 @@ import Solved from '../components/Solved';
 import Meta from '../components/Meta';
 import Header from '../components/Header';
 
-const index = () => {
+const index = ({ data }) => {
+  console.log({ data });
   return (
-    <Wrapper>
+    <Wrapper edition={data.site.siteMetadata.edition}>
       <Meta />
       <Header />
       <Board />
@@ -20,5 +22,15 @@ const index = () => {
     </Wrapper>
   );
 };
+
+export const HomeQuery = graphql`
+  {
+    site {
+      siteMetadata {
+        edition
+      }
+    }
+  }
+`;
 
 export default index;
