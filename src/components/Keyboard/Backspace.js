@@ -1,10 +1,8 @@
-import React, { useContext} from 'react';
+import React, { useContext } from 'react';
 import styled from 'styled-components';
-import produce from 'immer';
+
 import { MdOutlineBackspace } from 'react-icons/md';
 import { StyledKey } from './Key';
-
-import useSiteContext from '../SiteContext';
 
 import { KeyboardContext } from './KeyBoardHandling';
 
@@ -21,6 +19,7 @@ const BackspaceKey = styled(StyledKey)`
   display: flex;
   justify-content: center;
   align-items: center;
+  width: auto;
   svg {
     width: 20px;
     height: 20px;

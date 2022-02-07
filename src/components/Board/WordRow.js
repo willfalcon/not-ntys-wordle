@@ -52,4 +52,5 @@ const wiggle = keyframes`
   }
 `;
 
+export { Row };
 export default WordRow;

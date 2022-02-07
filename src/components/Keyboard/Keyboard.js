@@ -10,7 +10,7 @@ const Keyboard = () => {
   return (
     <KeyBoardHandling>
       <StyledKeyboard>
-        <KeyRow>
+        <KeyRow keys={10}>
           <Key>q</Key>
           <Key>w</Key>
           <Key>e</Key>
@@ -51,7 +51,12 @@ const Keyboard = () => {
   );
 };
 
-const StyledKeyboard = styled.div``;
+const StyledKeyboard = styled.div`
+  .key {
+    width: 10%;
+    width: calc(10% - 6px);
+  }
+`;
 const KeyRow = styled.div`
   margin-bottom: 8px;
   display: flex;

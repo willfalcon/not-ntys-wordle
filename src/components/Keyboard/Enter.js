@@ -5,7 +5,11 @@ import { StyledKey } from './Key';
 const Enter = () => {
   const { logAnswer } = useSiteContext();
 
-  return <StyledKey onClick={logAnswer}>Enter</StyledKey>;
+  return (
+    <StyledKey style={{ width: 'auto' }} onClick={logAnswer}>
+      Enter
+    </StyledKey>
+  );
 };
 
 export default Enter;

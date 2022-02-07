@@ -1,9 +1,14 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import produce from 'immer';
 
+import setStats from './setStats';
+import Alert from './Alert';
+
 const SiteContext = createContext();
 
 const SiteContextProvider = ({ children, data }) => {
+  const [statsOpen, setStatsOpen] = useState(false);
+
   const [workingRow, setWorkingRow] = useState(0);
   const [workingBox, setWorkingBox] = useState(0);
 
@@ -30,10 +35,11 @@ const SiteContextProvider = ({ children, data }) => {
   const [notAWord, setNotAWord] = useState(false);
   const [notAWordModal, setNotAWordModal] = useState(false);
   const [solved, setSolved] = useState(false);
+  const [failed, setFailed] = useState(false);
 
   useEffect(() => {
     const storageLetters = localStorage.getItem('letters');
-    console.log(JSON.parse(storageLetters));
+
     if (storageLetters) {
       const newLetters = JSON.parse(storageLetters);
       setLetters(newLetters);
@@ -58,6 +64,12 @@ const SiteContextProvider = ({ children, data }) => {
     const storageSolved = localStorage.getItem('solved');
     if (storageSolved) {
       setSolved(storageSolved);
+      setStatsOpen(true);
+    }
+    const storageFailed = localStorage.getItem('failed');
+    if (storageFailed) {
+      setFailed(true);
+      setStatsOpen(true);
     }
   }, []);
 
@@ -84,12 +96,12 @@ const SiteContextProvider = ({ children, data }) => {
       const rawCheckAttempt = await fetch(`/.netlify/functions/check-attempt?word=${attempt.join('')}`);
       const checkAttempt = await rawCheckAttempt.json();
 
-      const finishedAttempt = produce(attempts, draft => {
+      const finishedAttempts = produce(attempts, draft => {
         draft[workingRow] = checkAttempt.result;
       });
 
-      localStorage.setItem('attempts', JSON.stringify(finishedAttempt));
-      setAttempts(finishedAttempt);
+      localStorage.setItem('attempts', JSON.stringify(finishedAttempts));
+      setAttempts(finishedAttempts);
 
       const newRowLocks = produce(rowLocks, draft => {
         draft[workingRow] = true;
@@ -104,15 +116,39 @@ const SiteContextProvider = ({ children, data }) => {
         setWorkingBox(5);
         localStorage.setItem('solved', true);
         setSolved(true);
+        setStats(finishedAttempts, true);
       } else {
         const newWorkingRow = workingRow === 6 ? workingRow : workingRow + 1;
         localStorage.setItem('workingRow', newWorkingRow);
         setWorkingRow(newWorkingRow);
+        if (newWorkingRow === 6) {
+          setFailed(true);
+          setStats(finishedAttempts, false);
+          localStorage.setItem('failed', true);
+          setStatsOpen(true);
+        }
         localStorage.setItem('workingBox', 0);
         setWorkingBox(0);
       }
     }
   }
+
+  const [alertText, setAlertText] = useState('');
+  const [showAlert, setShowAlert] = useState(false);
+
+  const useAlert = (text, duration = 2000) => {
+    console.log(text);
+    setAlertText(text);
+
+    function trigger() {
+      console.log('alert trigger');
+      setShowAlert(true);
+      setTimeout(() => {
+        setShowAlert(false);
+      }, duration);
+    }
+    return trigger;
+  };
 
   return (
     <SiteContext.Provider
@@ -123,7 +159,6 @@ const SiteContextProvider = ({ children, data }) => {
         setWorkingBox,
         letters,
         setLetters,
-
         attempts,
         logAnswer,
         rowLocks,
@@ -131,9 +166,13 @@ const SiteContextProvider = ({ children, data }) => {
         setNotAWord,
         notAWordModal,
         solved,
+        statsOpen,
+        setStatsOpen,
+        useAlert,
       }}
     >
       {children}
+      <Alert showAlert={showAlert} alertText={alertText} />
     </SiteContext.Provider>
   );
 };

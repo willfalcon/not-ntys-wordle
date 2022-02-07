@@ -10,7 +10,6 @@ const KeyBoardHandling = ({ children }) => {
   const { workingRow, workingBox, solved, letters, setLetters, setWorkingBox, logAnswer } = useSiteContext();
 
   const [specialKey, setSpecialKey] = useState(false);
-  console.log(specialKey);
 
   const backspace = () => {
     if (workingBox !== 0 && !solved) {
@@ -33,7 +32,7 @@ const KeyBoardHandling = ({ children }) => {
       localStorage.setItem('letters', JSON.stringify(newLetters));
       setLetters(newLetters);
       const newWorkingBox = workingBox == 5 ? 5 : workingBox + 1;
-      console.log(newWorkingBox);
+
       localStorage.setItem('workingBox', newWorkingBox);
       setWorkingBox(newWorkingBox);
     }
@@ -53,7 +52,6 @@ const KeyBoardHandling = ({ children }) => {
     } else if (e.key === 'Backspace') {
       backspace();
     } else if (specialKey) {
-      console.log({ specialKey });
       return;
     } else if (lettersList.includes(e.key)) {
       setNextLetter(e.key.toLowerCase());

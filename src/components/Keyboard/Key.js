@@ -19,8 +19,6 @@ const Key = ({ children }) => {
 
   const status = rowUsed >= 0 && boxUsed >= 0 ? attempts[rowUsed][boxUsed] : false;
 
-  console.log({ letter: children, status });
-
   return (
     <StyledKey
       onClick={e => {
@@ -28,6 +26,7 @@ const Key = ({ children }) => {
       }}
       data-key={children}
       status={status}
+      className="key"
     >
       {children}
     </StyledKey>
@@ -36,11 +35,10 @@ const Key = ({ children }) => {
 
 const StyledKey = styled.button`
   height: 58px;
-
   font-weight: bold;
   margin-right: 6px;
   border-radius: 4px;
-  background: #d3d6da;
+  background: ${({ theme }) => theme.light};
   background: ${({ theme, status }) =>
     status
       ? status === 'wrong'
@@ -49,20 +47,23 @@ const StyledKey = styled.button`
         ? theme.yellow
         : status === 'correct'
         ? theme.green
-        : '#d3d6da'
-      : '#d3d6da'};
+        : theme.light
+      : theme.light};
   color: dark;
   color: ${({ theme, status }) =>
-    status ? (status === 'wrong' ? 'white' : status === 'kinda' ? 'white' : status === 'correct' ? 'white' : 'dark') : 'dark'};
+    status ? (status === 'wrong' ? 'white' : status === 'kinda' ? 'white' : status === 'correct' ? 'white' : theme.dark) : theme.dark};
   border-width: 0;
   text-transform: uppercase;
-  font-size: 1.4rem;
+  font-size: 1.1rem;
+  width: 22px;
   padding: 0.5rem;
   &:last-child {
     margin-right: 0;
   }
   @media (min-width: 360px) {
     padding: 1rem;
+    font-size: 1.4rem;
+    width: 35px;
   }
   @media (min-width: 768px) {
     padding: 2rem;

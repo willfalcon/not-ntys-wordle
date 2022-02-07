@@ -7,22 +7,18 @@ import Keyboard from '../components/Keyboard/Keyboard';
 import NotAWord from '../components/NotAWord';
 import Solved from '../components/Solved';
 import Meta from '../components/Meta';
+import Header from '../components/Header';
 
 const index = () => {
   return (
     <Wrapper>
       <Meta />
-      <Heading>Skwahdle</Heading>
+      <Header />
       <Board />
       <Keyboard />
       <NotAWord />
-      <Solved />
     </Wrapper>
   );
 };
-
-const Heading = styled.h1`
-  text-align: center;
-`;
 
 export default index;
