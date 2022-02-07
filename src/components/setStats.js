@@ -35,5 +35,5 @@ function setStats(attempts, won) {
 
   localStorage.setItem('stats', JSON.stringify(statsObj));
 }
-
+export { blankStatsObj };
 export default setStats;

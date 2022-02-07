@@ -10,6 +10,7 @@ import { media } from './theme';
 import { Backdrop, Modal } from './Modal';
 import DistributionChart from './DistributionChart';
 import useSiteContext from './SiteContext';
+import { blankStatsObj } from './setStats';
 
 const StatsButton = styled(IconButton)`
   grid-row: 2 / 3;
@@ -54,7 +55,12 @@ const Statistics = () => {
     leave: { opacity: 0 },
   });
 
-  const stats = JSON.parse(localStorage.getItem('stats'));
+  const [stats, setStats] = useState(blankStatsObj);
+
+  useEffect(() => {
+    const stats = JSON.parse(localStorage.getItem('stats'));
+    setStats(stats);
+  }, []);
 
   return (
     <>
