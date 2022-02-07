@@ -27,7 +27,6 @@ const WrapperStyles = styled.div`
   margin-right: auto;
   max-width: 100%;
 
-  min-height: 100vh;
   height: ${({ windowHeight }) => windowHeight}px;
   display: grid;
   grid-template-rows: auto 1fr auto;
