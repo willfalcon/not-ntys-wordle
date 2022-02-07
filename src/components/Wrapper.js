@@ -5,10 +5,10 @@ import theme from './theme';
 import GlobalStyles from './GlobalStyles';
 import { SiteContextProvider } from './SiteContext';
 
-const Wrapper = ({ children }) => {
+const Wrapper = ({ children, edition }) => {
   return (
     <ThemeProvider theme={theme}>
-      <SiteContextProvider data={{}}>
+      <SiteContextProvider data={{ edition }}>
         <WrapperStyles>
           {children}
           <GlobalStyles />

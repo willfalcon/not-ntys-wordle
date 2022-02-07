@@ -1,5 +1,6 @@
 exports.handler = async function (event, context) {
   const word = 'blank';
+  const edition = 2;
   const params = event.queryStringParameters;
 
   const correctArray = word.split('');
@@ -19,6 +20,6 @@ exports.handler = async function (event, context) {
 
   return {
     statusCode: 200,
-    body: JSON.stringify({ result, solved: !solved.length }),
+    body: JSON.stringify({ result, solved: !solved.length, edition }),
   };
 };
