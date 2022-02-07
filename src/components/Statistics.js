@@ -147,6 +147,7 @@ const StatsModal = styled(Modal)`
     flex-direction: column;
     align-items: center;
     margin: 0 1rem;
+    text-align: center;
     span {
       :first-child {
         font-weight: bold;

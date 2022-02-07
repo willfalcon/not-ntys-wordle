@@ -21,6 +21,10 @@ const GlobalStyle = createGlobalStyle`
     font-size: 1.6rem;
   }
 
+  button {
+    color: ${({ theme }) => theme.dark};
+  }
+
   img {
     max-width: 100%;
     height: auto;
