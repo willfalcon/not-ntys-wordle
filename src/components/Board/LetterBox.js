@@ -19,7 +19,7 @@ const LetterBox = ({ row, box, locked, example = false, exampleStatus = false })
     if (letter) {
       api.start({
         from: { transform: 'scale(0.8)', opacity: 0, border: `2px solid ${theme.light}` },
-        to: { transform: 'scale(1)', opacity: 1, border: `2px solid ${theme.dark}` },
+        to: { transform: 'scale(1)', opacity: 1, border: `2px solid ${theme.maroon}` },
       });
     } else {
       api.start({ border: `2px solid ${theme.light}` });

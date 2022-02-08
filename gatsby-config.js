@@ -32,7 +32,7 @@ module.exports = {
       options: {
         name: `Skwahdle`,
         start_url: `/`,
-        theme_color: `#660000`,
+        theme_color: `#5D1725`,
         icon: `src/images/favicon.png`,
         display: `minimal-ui`,
       },
