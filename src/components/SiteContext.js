@@ -41,7 +41,7 @@ const SiteContextProvider = ({ children, data }) => {
     const lastEdition = localStorage.getItem('edition');
     if (!lastEdition) {
       resetState(edition);
-    } else if (lastEdition != edition) {
+    } else if (parseInt(lastEdition) !== edition) {
       resetState(edition);
     }
     if (failed || solved) {
@@ -56,6 +56,8 @@ const SiteContextProvider = ({ children, data }) => {
       const rawCheckExists = await fetch(`/.netlify/functions/check-word?word=${attempt.join('')}`);
       const checkExists = await rawCheckExists.json();
 
+      console.log(checkExists);
+
       if (!checkExists.found) {
         setNotAWord(true);
         setNotAWordModal(true);
@@ -69,11 +71,11 @@ const SiteContextProvider = ({ children, data }) => {
         return;
       }
 
-      const rawCheckAttempt = await fetch(`/.netlify/functions/check-attempt?word=${attempt.join('')}`);
-      const checkAttempt = await rawCheckAttempt.json();
+      // const rawCheckAttempt = await fetch(`/.netlify/functions/check-attempt?word=${attempt.join('')}`);
+      // const checkAttempt = await rawCheckAttempt.json();
 
       const finishedAttempts = produce(attempts, draft => {
-        draft[workingRow] = checkAttempt.result;
+        draft[workingRow] = checkExists.result;
       });
 
       setAttempts(finishedAttempts);
@@ -83,7 +85,7 @@ const SiteContextProvider = ({ children, data }) => {
       });
       setRowLocks(newRowLocks);
 
-      if (checkAttempt.solved) {
+      if (checkExists.solved) {
         setWorkingRow(6);
         setWorkingBox(5);
         setSolved(true);
