@@ -23,9 +23,10 @@ const StatsButton = styled(IconButton)`
 `;
 
 function generateCopyText(attempts) {
+  const edition = localStorage.getItem('edition');
   const filteredAttempts = attempts.filter(attempt => !attempt.includes(null));
 
-  const heading = `Skwahdle 2 ${filteredAttempts.length}/6 \n\n`;
+  const heading = `Skwahdle ${edition} ${filteredAttempts.length}/6 \n\n`;
   const renderAttempt = attempt => {
     return attempt
       .map(letter => {
