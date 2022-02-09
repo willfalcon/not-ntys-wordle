@@ -13,7 +13,7 @@ const DistributionChart = ({ stats }) => {
     <Chart>
       {guessesArr.map((no, i) => {
         return (
-          <Row key={i} todays={todaysGuesses == i + 1} no={no} max={max}>
+          <Row key={i} todays={parseInt(todaysGuesses) === i + 1} no={no} max={max}>
             <span className="label">{i + 1}</span>
             <span className="bar">{no}</span>
           </Row>

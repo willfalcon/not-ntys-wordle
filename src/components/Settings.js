@@ -2,7 +2,6 @@ import React from 'react';
 import styled from 'styled-components';
 import IconButton from './IconButton';
 import { MdSettings } from 'react-icons/md';
-import { media } from './theme';
 
 const SettingsButton = styled(IconButton)`
   grid-row: 2 / 3;

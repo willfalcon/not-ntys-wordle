@@ -2,7 +2,6 @@ import React from 'react';
 import styled from 'styled-components';
 
 import Instructions from './Instructions';
-import { media } from './theme';
 import Statistics from './Statistics';
 import Settings from './Settings';
 

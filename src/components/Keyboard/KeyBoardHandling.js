@@ -30,7 +30,7 @@ const KeyBoardHandling = ({ children }) => {
       });
 
       setLetters(newLetters);
-      const newWorkingBox = workingBox == 5 ? 5 : workingBox + 1;
+      const newWorkingBox = workingBox === 5 ? 5 : workingBox + 1;
       setWorkingBox(newWorkingBox);
     }
   };
@@ -62,7 +62,7 @@ const KeyBoardHandling = ({ children }) => {
     return () => {
       window.removeEventListener('keydown', keypressHandler);
     };
-  }, [workingRow, workingBox, specialKey]);
+  });
 
   return <KeyboardContext.Provider value={{ setNextLetter, backspace }}>{children}</KeyboardContext.Provider>;
 };

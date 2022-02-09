@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import theme, { media } from '../theme';
 
@@ -24,7 +24,7 @@ const LetterBox = ({ row, box, locked, example = false, exampleStatus = false })
     } else {
       api.start({ border: `2px solid ${theme.light}` });
     }
-  }, [letter]);
+  }, [letter, api]);
 
   useEffect(() => {
     if (exampleStatus || locked) {
@@ -46,7 +46,7 @@ const LetterBox = ({ row, box, locked, example = false, exampleStatus = false })
         });
       }, box * 100);
     }
-  }, [locked]);
+  }, [locked, box, api, innerApi, exampleStatus]);
 
   return (
     <BoxWrapper style={{ ...styles }}>

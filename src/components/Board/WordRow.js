@@ -1,13 +1,11 @@
-import classNames from 'classnames';
-import React, { useEffect } from 'react';
-import { animated, useSpring, config } from 'react-spring';
+import React from 'react';
 import styled, { keyframes } from 'styled-components';
 
 import useSiteContext from '../SiteContext';
 import LetterBox from './LetterBox';
 
 const WordRow = ({ row }) => {
-  const { rowLocks, notAWord, workingRow, setNotAWord } = useSiteContext();
+  const { rowLocks, notAWord, workingRow } = useSiteContext();
   const rowLocked = rowLocks[row];
 
   const thisRowNotAWord = notAWord && row === workingRow;

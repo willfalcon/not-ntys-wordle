@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import { GoGraph } from 'react-icons/go';
 import { IoClose } from 'react-icons/io5';
@@ -6,12 +6,9 @@ import { BsShareFill } from 'react-icons/bs';
 import { useTransition } from 'react-spring';
 
 import IconButton from './IconButton';
-import { media } from './theme';
 import { Backdrop, Modal } from './Modal';
 import DistributionChart from './DistributionChart';
 import useSiteContext from './SiteContext';
-import { blankStatsObj } from './updateStats';
-import useLocalStorage from './useLocalStorage';
 
 const StatsButton = styled(IconButton)`
   grid-row: 2 / 3;
