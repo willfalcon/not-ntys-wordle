@@ -2,7 +2,7 @@ module.exports = {
   siteMetadata: {
     siteUrl: `https://willhawks.com/not-wordle`,
     title: `NOT NYT's Wordle`,
-    edition: 3,
+    edition: 4,
     word: 'month',
   },
   plugins: [

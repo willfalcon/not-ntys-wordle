@@ -13,7 +13,7 @@ exports.handler = async function (event, context) {
   }
 
   const word = 'about';
-  const edition = 3;
+  const edition = 4;
   const correctArray = word.split('');
   const attempt = params.word.split('');
 
