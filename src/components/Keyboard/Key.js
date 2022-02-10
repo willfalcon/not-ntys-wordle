@@ -6,16 +6,10 @@ import useSiteContext from '../SiteContext';
 
 const Key = ({ children }) => {
   const { setNextLetter } = useContext(KeyboardContext);
-  const { letters, attempts } = useSiteContext();
-
-  // console.log({ letters, attempts });
+  const { letters, attempts, disabled } = useSiteContext();
 
   const rowUsed = letters.findIndex(row => row.includes(children));
   const boxUsed = rowUsed >= 0 ? letters[rowUsed].findIndex(letter => letter === children) : false;
-
-  if (rowUsed >= 0 && boxUsed >= 0) {
-    // console.log({ letter: children, rowUsed, boxUsed });
-  }
 
   const status = rowUsed >= 0 && boxUsed >= 0 ? attempts[rowUsed][boxUsed] : false;
 
@@ -27,6 +21,8 @@ const Key = ({ children }) => {
       data-key={children}
       status={status}
       className="key"
+      aria-disabled={disabled}
+      disabled={disabled}
     >
       {children}
     </StyledKey>
@@ -39,6 +35,7 @@ const StyledKey = styled.button`
   margin-right: 6px;
   border-radius: 4px;
   background: ${({ theme }) => theme.light};
+  opacity: ${({ disabled }) => (disabled ? 0.75 : 1)};
   background: ${({ theme, status }) =>
     status
       ? status === 'wrong'

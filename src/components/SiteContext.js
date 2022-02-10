@@ -1,5 +1,7 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import produce from 'immer';
+import { isSameDay } from 'date-fns';
+import NProgress from 'NProgress';
 
 import updateStats from './updateStats';
 import Alert from './Alert';
@@ -8,7 +10,7 @@ import useInitialState from './initialState';
 
 const SiteContext = createContext();
 
-const SiteContextProvider = ({ children, data }) => {
+const SiteContextProvider = ({ children }) => {
   const {
     statsOpen,
     setStatsOpen,
@@ -33,16 +35,18 @@ const SiteContextProvider = ({ children, data }) => {
     resetState,
     stats,
     setStats,
+    disabled,
+    setDisabled,
   } = useInitialState();
 
-  const { edition } = data;
+  const today = new Date();
 
   useEffect(() => {
-    const lastEdition = localStorage.getItem('edition');
-    if (!lastEdition) {
-      resetState(edition);
-    } else if (parseInt(lastEdition) !== edition) {
-      resetState(edition);
+    const lastDate = localStorage.getItem('last-date');
+    if (!lastDate) {
+      resetState(today);
+    } else if (!isSameDay(new Date(lastDate), today)) {
+      resetState(today);
     }
     if (failed || solved) {
       setStatsOpen(true);
@@ -50,13 +54,14 @@ const SiteContextProvider = ({ children, data }) => {
   }, []);
 
   async function logAnswer() {
+    setDisabled(true);
+    NProgress.start();
+
     const attempt = letters[workingRow];
 
     if (!attempt.includes('')) {
       const rawCheckExists = await fetch(`/.netlify/functions/check-word?word=${attempt.join('')}`);
       const checkExists = await rawCheckExists.json();
-
-      console.log(checkExists);
 
       if (!checkExists.found) {
         setNotAWord(true);
@@ -67,7 +72,8 @@ const SiteContextProvider = ({ children, data }) => {
         setTimeout(() => {
           setNotAWordModal(false);
         }, 2000);
-
+        setDisabled(false);
+        NProgress.done();
         return;
       }
 
@@ -102,15 +108,16 @@ const SiteContextProvider = ({ children, data }) => {
         setWorkingBox(0);
       }
     }
+    setDisabled(false);
+    NProgress.done();
   }
 
   const [alertText, setAlertText] = useState('');
   const [showAlert, setShowAlert] = useState(false);
 
   const useAlert = (text, duration = 2000) => {
-    setAlertText(text);
     function trigger() {
-      console.log('alert trigger');
+      setAlertText(text);
       setShowAlert(true);
       setTimeout(() => {
         setShowAlert(false);
@@ -135,11 +142,15 @@ const SiteContextProvider = ({ children, data }) => {
         setNotAWord,
         notAWordModal,
         solved,
+        failed,
         statsOpen,
         setStatsOpen,
         useAlert,
         stats,
         setStats,
+        disabled,
+        setDisabled,
+        resetState,
       }}
     >
       {children}

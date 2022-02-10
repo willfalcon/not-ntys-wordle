@@ -7,25 +7,29 @@ function useInitialState() {
   const [workingRow, setWorkingRow] = useLocalStorage('workingRow', 0);
   const [workingBox, setWorkingBox] = useLocalStorage('workingBox', 0);
 
-  const [letters, setLetters] = useLocalStorage('letters', [
+  const emptyLetters = [
     ['', '', '', '', ''],
     ['', '', '', '', ''],
     ['', '', '', '', ''],
     ['', '', '', '', ''],
     ['', '', '', '', ''],
     ['', '', '', '', ''],
-  ]);
+  ];
+  const emptyAttempts = [
+    [null, null, null, null, null],
+    [null, null, null, null, null],
+    [null, null, null, null, null],
+    [null, null, null, null, null],
+    [null, null, null, null, null],
+    [null, null, null, null, null],
+  ];
+  const emptyLocks = [null, null, null, null, null, null];
 
-  const [attempts, setAttempts] = useLocalStorage('attempts', [
-    [null, null, null, null, null],
-    [null, null, null, null, null],
-    [null, null, null, null, null],
-    [null, null, null, null, null],
-    [null, null, null, null, null],
-    [null, null, null, null, null],
-  ]);
+  const [letters, setLetters] = useLocalStorage('letters', emptyLetters);
 
-  const [rowLocks, setRowLocks] = useLocalStorage('rowLocks', [null, null, null, null, null, null]);
+  const [attempts, setAttempts] = useLocalStorage('attempts', emptyAttempts);
+
+  const [rowLocks, setRowLocks] = useLocalStorage('rowLocks', emptyLocks);
 
   const [notAWord, setNotAWord] = useState(false);
   const [notAWordModal, setNotAWordModal] = useState(false);
@@ -34,30 +38,18 @@ function useInitialState() {
 
   const [stats, setStats] = useLocalStorage('stats', blankStatsObj);
 
-  function resetState(edition) {
-    setLetters([
-      ['', '', '', '', ''],
-      ['', '', '', '', ''],
-      ['', '', '', '', ''],
-      ['', '', '', '', ''],
-      ['', '', '', '', ''],
-      ['', '', '', '', ''],
-    ]);
+  const [disabled, setDisabled] = useState(false);
 
-    setAttempts([
-      [null, null, null, null, null],
-      [null, null, null, null, null],
-      [null, null, null, null, null],
-      [null, null, null, null, null],
-      [null, null, null, null, null],
-      [null, null, null, null, null],
-    ]);
-    setRowLocks([null, null, null, null, null, null]);
+  function resetState() {
+    setLetters(emptyLetters);
+
+    setAttempts(emptyAttempts);
+    setRowLocks(emptyLocks);
     setSolved(false);
     setFailed(false);
     setWorkingRow(0);
     setWorkingBox(0);
-    localStorage.setItem('edition', edition);
+    localStorage.setItem('last-date', new Date());
   }
 
   return {
@@ -84,6 +76,8 @@ function useInitialState() {
     stats,
     setStats,
     resetState,
+    disabled,
+    setDisabled,
   };
 }
 

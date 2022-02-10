@@ -1,0 +1,27 @@
+const Airtable = require('airtable');
+
+Airtable.configure({
+  endpointUrl: 'https://api.airtable.com',
+  apiKey: 'keyIftJHBfcdrA9gB',
+});
+const base = Airtable.base('app8UrJKvRkUdKUI0');
+
+function getWord() {
+  return new Promise((resolve, reject) => {
+    base('Words')
+      .select({
+        maxRecords: 1,
+        view: 'Grid view',
+        filterByFormula: `IS_SAME({Date}, TODAY(), 'day')`,
+      })
+      .firstPage((error, records) => {
+        if (error) {
+          reject(error);
+          return;
+        }
+        resolve(records[0].fields);
+      });
+  });
+}
+
+module.exports = getWord;

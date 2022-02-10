@@ -2,8 +2,6 @@ module.exports = {
   siteMetadata: {
     siteUrl: `https://willhawks.com/not-wordle`,
     title: `NOT NYT's Wordle`,
-    edition: 4,
-    word: 'month',
   },
   plugins: [
     `gatsby-plugin-styled-components`,

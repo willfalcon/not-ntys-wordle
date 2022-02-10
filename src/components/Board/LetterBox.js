@@ -62,7 +62,7 @@ const BoxWrapper = styled(animated.div)`
   perspective: 1000px;
   width: 16vw;
   height: 16vw;
-  border: 2px solid ${({ theme }) => theme.blue};
+  border: 2px solid ${({ theme }) => theme.light};
   display: block;
   @media (min-width: 375px) {
     width: 14vw;
@@ -98,9 +98,9 @@ const Box = styled(animated.div)`
     background: white;
   }
   .back {
-    border: 2px solid
-      ${({ status, theme }) =>
-        status === 'correct' ? theme.green : status === 'kinda' ? theme.yellow : status === 'wrong' ? theme.dark : theme.blue};
+    border: 2px solid;
+    border-color: ${({ status, theme }) =>
+      status === 'correct' ? theme.green : status === 'kinda' ? theme.yellow : status === 'wrong' ? theme.dark : theme.light};
     color: ${({ status, theme }) => (status ? 'white' : theme.dark)};
     background-color: ${({ status, theme }) =>
       status === 'correct' ? theme.green : status === 'kinda' ? theme.yellow : status === 'wrong' ? theme.dark : 'transparent'};

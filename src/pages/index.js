@@ -1,5 +1,4 @@
 import React from 'react';
-import { graphql } from 'gatsby';
 
 import Wrapper from '../components/Wrapper';
 import Board from '../components/Board/Board';
@@ -8,10 +7,9 @@ import NotAWord from '../components/NotAWord';
 import Meta from '../components/Meta';
 import Header from '../components/Header';
 
-const index = ({ data }) => {
-  console.log({ data });
+const index = () => {
   return (
-    <Wrapper edition={data.site.siteMetadata.edition}>
+    <Wrapper>
       <Meta />
       <Header />
       <Board />
@@ -20,15 +18,5 @@ const index = ({ data }) => {
     </Wrapper>
   );
 };
-
-export const HomeQuery = graphql`
-  {
-    site {
-      siteMetadata {
-        edition
-      }
-    }
-  }
-`;
 
 export default index;

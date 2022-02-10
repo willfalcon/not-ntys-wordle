@@ -39,6 +39,19 @@ const GlobalStyle = createGlobalStyle`
       display: inline-block;
     }
   }
+  #nprogress {
+    .bar {
+      background: ${({ theme }) => theme.maroon};
+    }
+    .spinner-icon {
+      border-top-color: ${({ theme }) => theme.maroon};
+      border-left-color: ${({ theme }) => theme.maroon};
+    }
+  }
+
+  .underline {
+    text-decoration: underline;
+  }
 `;
 
 export default GlobalStyle;

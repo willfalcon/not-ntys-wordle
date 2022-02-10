@@ -1,4 +1,5 @@
 const fs = require('fs');
+const getWord = require('../getWord');
 
 exports.handler = async function (event, context) {
   const params = event.queryStringParameters;
@@ -12,15 +13,30 @@ exports.handler = async function (event, context) {
     };
   }
 
-  const word = 'about';
-  const edition = 4;
+  const record = await getWord().catch(err => console.error({ err }));
+  const word = record.Word;
   const correctArray = word.split('');
   const attempt = params.word.split('');
 
-  const result = attempt.map((letter, index) => {
-    if (correctArray[index] === letter) {
+  const reference = attempt.map((letter, index) => ({
+    attempt: letter,
+    index,
+    correct: correctArray[index],
+    status: correctArray[index] === letter ? 'correct' : correctArray.includes(letter) ? 'kinda' : 'wrong',
+  }));
+
+  const result = reference.map((letter, index) => {
+    // if this is the right letter in the right spot, return correct regardless
+    if (letter.status === 'correct') {
       return 'correct';
-    } else if (correctArray.includes(letter)) {
+    }
+    // if this is a right letter in the wrong spot,
+    if (letter.status === 'kinda') {
+      // if this is a correct letter in the wrong spot, but all the correct instances are account for, return false
+      if (!reference.filter(ref => ref.correct == letter.attempt && ref.status != 'correct').length) {
+        return 'wrong';
+      }
+
       return 'kinda';
     } else {
       return 'wrong';
@@ -31,7 +47,7 @@ exports.handler = async function (event, context) {
 
   return {
     statusCode: 200,
-    body: JSON.stringify({ result, solved: !solved.length, edition, found }),
+    body: JSON.stringify({ result, solved: !solved.length, found }),
   };
 };
 

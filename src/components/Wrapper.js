@@ -6,12 +6,12 @@ import GlobalStyles from './GlobalStyles';
 import { SiteContextProvider } from './SiteContext';
 import useWindowSize from './useWindowSize';
 
-const Wrapper = ({ children, edition }) => {
+const Wrapper = ({ children }) => {
   const size = useWindowSize();
 
   return (
     <ThemeProvider theme={theme}>
-      <SiteContextProvider data={{ edition }}>
+      <SiteContextProvider data={{}}>
         <WrapperStyles windowHeight={size.height}>
           {children}
           <GlobalStyles />

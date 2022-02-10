@@ -1,14 +1,16 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import { GoGraph } from 'react-icons/go';
 import { IoClose } from 'react-icons/io5';
 import { BsShareFill } from 'react-icons/bs';
 import { useTransition } from 'react-spring';
+import { differenceInDays, setHours, setMinutes, setSeconds } from 'date-fns';
 
 import IconButton from './IconButton';
 import { Backdrop, Modal } from './Modal';
 import DistributionChart from './DistributionChart';
 import useSiteContext from './SiteContext';
+import generateCopyText from './generateCopyText';
 
 const StatsButton = styled(IconButton)`
   grid-row: 2 / 3;
@@ -19,34 +21,20 @@ const StatsButton = styled(IconButton)`
   }
 `;
 
-function generateCopyText(attempts) {
-  const edition = localStorage.getItem('edition');
-  const filteredAttempts = attempts.filter(attempt => !attempt.includes(null));
-
-  const heading = `Skwahdle ${edition} ${filteredAttempts.length}/6 \n\n`;
-  const renderAttempt = attempt => {
-    return attempt
-      .map(letter => {
-        switch (letter) {
-          case 'wrong':
-          default:
-            return '⬜';
-          case 'kinda':
-            return '🟨';
-          case 'correct':
-            return '🟩';
-        }
-      })
-      .join('');
-  };
-  const attemptsCopy = filteredAttempts.map((attempt, index) => renderAttempt(attempt)).join('\n');
-  return heading + attemptsCopy;
-}
-
 const Statistics = () => {
-  const { statsOpen, setStatsOpen, attempts, useAlert, stats, solved } = useSiteContext();
+  const { statsOpen, setStatsOpen, attempts, useAlert, stats, solved, failed, resetState } = useSiteContext();
 
   const showAlert = useAlert('Results copied to clipboard.');
+  const midnight = setSeconds(setMinutes(setHours(new Date(), 0), 0), 0);
+  const edition = differenceInDays(midnight, new Date('2022-02-05'));
+
+  const [answer, setAnswer] = useState(false);
+
+  async function getAnswer() {
+    const rawRes = await fetch('/.netlify/functions/get-answer');
+    const answer = await rawRes.json();
+    setAnswer(answer);
+  }
 
   const transition = useTransition(statsOpen, {
     from: { opacity: 0 },
@@ -78,6 +66,37 @@ const Statistics = () => {
                   <IoClose />
                 </button>
                 {solved && <h2>You've solved it.</h2>}
+                {failed && (
+                  <>
+                    <h2>Oh no! 😭 You Lost.</h2>
+                    <p>
+                      <span
+                        className="underline"
+                        onClick={() => {
+                          resetState();
+                          setStatsOpen(false);
+                        }}
+                      >
+                        Reset
+                      </span>{' '}
+                      or{' '}
+                      <span
+                        className="underline"
+                        onClick={() => {
+                          getAnswer();
+                        }}
+                      >
+                        Show the Answer
+                      </span>
+                      .
+                    </p>
+                    {answer && (
+                      <p>
+                        <strong>Answer:</strong> "{answer}"
+                      </p>
+                    )}
+                  </>
+                )}
                 <h3 className="text-center">Statistics</h3>
                 <div className="flex">
                   <div className="stat">
@@ -85,7 +104,7 @@ const Statistics = () => {
                     <span>Played</span>
                   </div>
                   <div className="stat">
-                    <span>{(stats.gamesWon / stats.gamesPlayed) * 100}</span>
+                    <span>{(stats.gamesWon / (stats.gamesPlayed || 1)) * 100}</span>
                     <span>Win %</span>
                   </div>
                   <div className="stat">
@@ -105,16 +124,13 @@ const Statistics = () => {
                   className="share"
                   onClick={() => {
                     const copyText = generateCopyText(attempts);
-                    // console.log(copyText);
 
                     if (navigator.share) {
-                      console.log('share api available');
                       navigator.share({
-                        title: `Skwahdle No. 1`,
+                        title: `Skwahdle ${edition}`,
                         text: copyText,
                       });
                     } else {
-                      // console.log('share api not available');
                       navigator.clipboard.writeText(copyText);
                       showAlert();
                     }
@@ -152,6 +168,9 @@ const StatsModal = styled(Modal)`
         font-size: 3rem;
       }
     }
+  }
+  .underline {
+    cursor: pointer;
   }
   .share {
     cursor: pointer;
