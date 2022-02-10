@@ -1,7 +1,7 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import produce from 'immer';
 import { isSameDay } from 'date-fns';
-import NProgress from 'NProgress';
+import NProgress from 'nprogress';
 
 import updateStats from './updateStats';
 import Alert from './Alert';
