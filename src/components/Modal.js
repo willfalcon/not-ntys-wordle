@@ -1,9 +1,49 @@
+import React from 'react';
 import styled from 'styled-components';
-import { animated } from 'react-spring';
+import { animated, useTransition } from 'react-spring';
+import { IoClose } from 'react-icons/io5';
 import { rgba } from 'polished';
-import { media } from './theme';
 
-const Modal = styled(animated.div)`
+import { media } from './theme';
+import { useOnClickOutside } from './hooks';
+
+const Modal = ({ open, onClose, children, style, className }) => {
+  const transition = useTransition(open, {
+    from: { opacity: 0 },
+    enter: { opacity: 1 },
+    leave: { opacity: 0 },
+  });
+
+  const backdropTransition = useTransition(open, {
+    from: { opacity: 0 },
+    enter: { opacity: 0.65 },
+    leave: { opacity: 0 },
+  });
+
+  const ref = useOnClickOutside(onClose);
+
+  return (
+    <>
+      {backdropTransition((styles, item) => item && <Backdrop style={styles} />)}
+      {transition(
+        (styles, item) =>
+          item && (
+            <>
+              <StyledModal className={className} style={{ ...styles, ...style }} ref={ref}>
+                <button className="close" onClick={onClose}>
+                  <IoClose />
+                </button>
+                {children}
+              </StyledModal>
+            </>
+          )
+      )}
+    </>
+  );
+  return;
+};
+
+const StyledModal = styled(animated.div)`
   position: absolute;
   width: 500px;
   max-width: 100%;
@@ -16,6 +56,7 @@ const Modal = styled(animated.div)`
   `}
   z-index: 1;
   background: white;
+  background: var(--white);
   box-shadow: ${({ theme }) => theme.bs};
 
   padding: 3rem 1rem;
@@ -40,16 +81,14 @@ const Modal = styled(animated.div)`
   }
   .share {
     text-transform: uppercase;
-    background: green;
-    color: white;
+    background: ${({ theme }) => theme.green};
+    background: var(--green);
+    background: white;
+    color: var(--white);
     font-weight: bold;
     border: 0;
     border-radius: 4px;
     padding: 1rem 2rem;
-  }
-  .copy-content {
-    background: lightgrey;
-    padding: 1rem;
   }
 `;
 
@@ -59,8 +98,10 @@ const Backdrop = styled(animated.div)`
   height: 100%;
   left: 0;
   top: 0;
-  background: ${rgba('white', 0.65)};
+  background: var(--white);
+  opacity: 0.65;
   z-index: 1;
 `;
 
-export { Modal, Backdrop };
+export { StyledModal, Backdrop };
+export default Modal;

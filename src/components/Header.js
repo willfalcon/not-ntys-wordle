@@ -36,7 +36,7 @@ const Heading = styled.h1`
   text-align: center;
   text-transform: uppercase;
   grid-column: 1 / -1;
-  border-bottom: 1px solid lightgrey;
+  border-bottom: 1px solid var(--light);
 
   margin: 0 0 1rem;
   @media (min-width: 375px) {

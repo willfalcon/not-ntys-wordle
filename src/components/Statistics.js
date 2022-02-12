@@ -1,13 +1,12 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { GoGraph } from 'react-icons/go';
-import { IoClose } from 'react-icons/io5';
+
 import { BsShareFill } from 'react-icons/bs';
-import { useTransition } from 'react-spring';
 import { differenceInDays, setHours, setMinutes, setSeconds } from 'date-fns';
 
 import IconButton from './IconButton';
-import { Backdrop, Modal } from './Modal';
+import Modal from './Modal';
 import DistributionChart from './DistributionChart';
 import useSiteContext from './SiteContext';
 import generateCopyText from './generateCopyText';
@@ -35,13 +34,6 @@ const Statistics = () => {
     const answer = await rawRes.json();
     setAnswer(answer);
   }
-
-  const transition = useTransition(statsOpen, {
-    from: { opacity: 0 },
-    enter: { opacity: 1 },
-    leave: { opacity: 0 },
-  });
-
   return (
     <>
       <StatsButton
@@ -51,98 +43,83 @@ const Statistics = () => {
       >
         <GoGraph />
       </StatsButton>
-      {transition(
-        (styles, item) =>
-          item && (
-            <>
-              <Backdrop style={styles} />
-              <StatsModal style={styles}>
-                <button
-                  className="close"
-                  onClick={() => {
-                    setStatsOpen(false);
-                  }}
-                >
-                  <IoClose />
-                </button>
-                {solved && <h2>You've solved it.</h2>}
-                {failed && (
-                  <>
-                    <h2>Oh no! 😭 You Lost.</h2>
-                    <p>
-                      <span
-                        className="underline"
-                        onClick={() => {
-                          resetState();
-                          setStatsOpen(false);
-                        }}
-                      >
-                        Reset
-                      </span>{' '}
-                      or{' '}
-                      <span
-                        className="underline"
-                        onClick={() => {
-                          getAnswer();
-                        }}
-                      >
-                        Show the Answer
-                      </span>
-                      .
-                    </p>
-                    {answer && (
-                      <p>
-                        <strong>Answer:</strong> "{answer}"
-                      </p>
-                    )}
-                  </>
-                )}
-                <h3 className="text-center">Statistics</h3>
-                <div className="flex">
-                  <div className="stat">
-                    <span>{stats.gamesPlayed}</span>
-                    <span>Played</span>
-                  </div>
-                  <div className="stat">
-                    <span>{(stats.gamesWon / (stats.gamesPlayed || 1)) * 100}</span>
-                    <span>Win %</span>
-                  </div>
-                  <div className="stat">
-                    <span>{stats.currentStreak}</span>
-                    <span>Current Streak</span>
-                  </div>
-                  <div className="stat">
-                    <span>{stats.maxStreak}</span>
-                    <span>Max Streak</span>
-                  </div>
-                </div>
 
-                <h3 className="text-center">Guess Distribution</h3>
-                <DistributionChart stats={stats} />
+      <StatsModal open={statsOpen} onClose={() => setStatsOpen(false)}>
+        {solved && <h2>You've solved it.</h2>}
+        {failed && (
+          <>
+            <h2>Oh no! 😭 You Lost.</h2>
+            <p>
+              <span
+                className="underline"
+                onClick={() => {
+                  resetState();
+                  setStatsOpen(false);
+                }}
+              >
+                Reset
+              </span>{' '}
+              or{' '}
+              <span
+                className="underline"
+                onClick={() => {
+                  getAnswer();
+                }}
+              >
+                Show the Answer
+              </span>
+              .
+            </p>
+            {answer && (
+              <p>
+                <strong>Answer:</strong> "{answer}"
+              </p>
+            )}
+          </>
+        )}
+        <h3 className="text-center">Statistics</h3>
+        <div className="flex">
+          <div className="stat">
+            <span>{stats.gamesPlayed}</span>
+            <span>Played</span>
+          </div>
+          <div className="stat">
+            <span>{(stats.gamesWon / (stats.gamesPlayed || 1)) * 100}</span>
+            <span>Win %</span>
+          </div>
+          <div className="stat">
+            <span>{stats.currentStreak}</span>
+            <span>Current Streak</span>
+          </div>
+          <div className="stat">
+            <span>{stats.maxStreak}</span>
+            <span>Max Streak</span>
+          </div>
+        </div>
 
-                <button
-                  className="share"
-                  onClick={() => {
-                    const copyText = generateCopyText(attempts);
+        <h3 className="text-center">Guess Distribution</h3>
+        <DistributionChart stats={stats} />
 
-                    if (navigator.share) {
-                      navigator.share({
-                        title: `Skwahdle ${edition}`,
-                        text: copyText,
-                      });
-                    } else {
-                      navigator.clipboard.writeText(copyText);
-                      showAlert();
-                    }
-                  }}
-                >
-                  Share
-                  <BsShareFill style={{ marginLeft: '5px' }} />
-                </button>
-              </StatsModal>
-            </>
-          )
-      )}
+        <button
+          className="share"
+          onClick={() => {
+            const copyText = generateCopyText(attempts);
+
+            if (navigator.share) {
+              navigator.share({
+                title: `Skwahdle ${edition}`,
+                text: copyText,
+              });
+            } else {
+              navigator.clipboard.writeText(copyText);
+              showAlert();
+            }
+          }}
+        >
+          Share
+          <BsShareFill style={{ marginLeft: '5px' }} />
+        </button>
+      </StatsModal>
     </>
   );
 };

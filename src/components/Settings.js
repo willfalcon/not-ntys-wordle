@@ -1,7 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import IconButton from './IconButton';
 import { MdSettings } from 'react-icons/md';
+
+import Modal from './Modal';
 
 const SettingsButton = styled(IconButton)`
   grid-row: 2 / 3;
@@ -13,10 +15,15 @@ const SettingsButton = styled(IconButton)`
 `;
 
 const Settings = () => {
+  const [open, setOpen] = useState(false);
+
   return (
-    <SettingsButton>
-      <MdSettings />
-    </SettingsButton>
+    <>
+      <SettingsButton onClick={() => setOpen(!open)}>
+        <MdSettings />
+      </SettingsButton>
+      <Modal open={open} onClose={() => setOpen(false)}></Modal>
+    </>
   );
 };
 

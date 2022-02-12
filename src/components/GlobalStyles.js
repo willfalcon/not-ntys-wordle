@@ -1,6 +1,16 @@
 import { createGlobalStyle } from 'styled-components';
 
 const GlobalStyle = createGlobalStyle`
+
+  :root {
+    --dark: #000F08;
+    --yellow: #FFC857;
+    --green: #00916E;
+    --light: #E1DEE3;
+    --blue: #B4CDED;
+    --maroon: #5D1725;
+    --white: white;
+  }
   
   html {
     box-sizing: border-box;
@@ -13,9 +23,8 @@ const GlobalStyle = createGlobalStyle`
     box-sizing: inherit;
   }
   body {
-    /* font-family: ${({ theme }) => theme.font.family}; */
-    /* background: ${({ theme }) => theme.blue}; */
     color: ${({ theme }) => theme.dark};
+    color: var(--dark);
     
     font-family: sans-serif;
     font-size: 1.6rem;
@@ -23,6 +32,7 @@ const GlobalStyle = createGlobalStyle`
 
   button {
     color: ${({ theme }) => theme.dark};
+    color: var(--dark);
   }
 
   img {
@@ -39,13 +49,15 @@ const GlobalStyle = createGlobalStyle`
       display: inline-block;
     }
   }
-  #nprogress {
+  div#nprogress {
     .bar {
       background: ${({ theme }) => theme.maroon};
     }
     .spinner-icon {
       border-top-color: ${({ theme }) => theme.maroon};
+      border-top-color: var(--maroon);
       border-left-color: ${({ theme }) => theme.maroon};
+      border-left-color: var(--maroon);
     }
   }
 

@@ -4,7 +4,7 @@ import styled, { ThemeProvider } from 'styled-components';
 import theme from './theme';
 import GlobalStyles from './GlobalStyles';
 import { SiteContextProvider } from './SiteContext';
-import useWindowSize from './useWindowSize';
+import { useWindowSize } from './hooks';
 
 const Wrapper = ({ children }) => {
   const size = useWindowSize();

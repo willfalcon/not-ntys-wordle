@@ -18,7 +18,7 @@ const NotAWord = () => {
         (styles, item) =>
           item && (
             <Modal style={styles}>
-              <p>I got 8499 words and that ain't one.</p>
+              <p>I got 5758 words and that ain't one.</p>
             </Modal>
           )
       )}
@@ -32,9 +32,25 @@ const Modal = styled(animated.div)`
   top: 25%;
   left: 50%;
   transform: translate(-50%, -50%);
-  background: ${({ theme }) => rgba(theme.dark, 0.9)};
   color: white;
+  color: var(--white);
   z-index: 21;
+  p {
+    z-index: 2;
+    position: relative;
+  }
+  &::before {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background: ${({ theme }) => theme.dark};
+    background: var(--dark);
+    opacity: 0.9;
+    z-index: 1;
+  }
 `;
 
 export default NotAWord;
