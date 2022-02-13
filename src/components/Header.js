@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import Instructions from './Instructions';
 import Statistics from './Statistics';
 import Settings from './Settings';
+import theme from './theme';
 
 const Header = () => {
   return (
@@ -26,6 +27,7 @@ const StyledHeader = styled.header`
   grid-template-rows: auto 30px;
   padding: 2rem 1rem;
   max-width: 100%;
+  color: ${({ theme }) => theme.heading};
   @media (min-width: 375px) {
     grid-template-columns: 30px 30px 1fr 30px 30px;
     grid-template-rows: auto;
@@ -36,7 +38,7 @@ const Heading = styled.h1`
   text-align: center;
   text-transform: uppercase;
   grid-column: 1 / -1;
-  border-bottom: 1px solid var(--light);
+  border-bottom: 1px solid ${({ theme }) => theme.light};
 
   margin: 0 0 1rem;
   @media (min-width: 375px) {

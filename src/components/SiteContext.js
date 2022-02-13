@@ -10,7 +10,7 @@ import useInitialState from './initialState';
 
 const SiteContext = createContext();
 
-const SiteContextProvider = ({ children }) => {
+const SiteContextProvider = ({ children, data }) => {
   const {
     statsOpen,
     setStatsOpen,
@@ -151,6 +151,7 @@ const SiteContextProvider = ({ children }) => {
         disabled,
         setDisabled,
         resetState,
+        ...data,
       }}
     >
       {children}

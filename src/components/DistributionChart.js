@@ -35,9 +35,8 @@ const Row = styled.div`
   .bar {
     width: ${({ no, max }) => (no / max) * 100}%;
     background: ${({ theme, todays }) => (todays ? theme.green : theme.dark)};
-    background: ${({ theme, todays }) => (todays ? 'var(--green)' : 'var(--dark)')};
     height: 100%;
-    color: white;
+    color: ${({ theme }) => theme.white};
     min-width: 20px;
     text-align: right;
     padding: 0 4px;

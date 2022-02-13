@@ -1,12 +1,7 @@
+import { Base } from 'airtable';
 import { css } from 'styled-components';
 
-const theme = {
-  dark: '#000F08',
-  yellow: '#FFC857',
-  green: '#00916E',
-  light: '#E1DEE3',
-  blue: '#B4CDED',
-  maroon: '#5D1725',
+const base = {
   bs: '0 12px 24px 0 rgba(0, 0, 0, 0.09)',
   sizes: {
     medium: 320,
@@ -16,9 +11,74 @@ const theme = {
   },
 };
 
-const media = Object.keys(theme.sizes).reduce((acc, label) => {
+const stash = {
+  dark: '#000F08',
+  yellow: '#FFC857',
+  green: '#00916E',
+  light: '#E1DEE3',
+  blue: '#B4CDED',
+  maroon: '#5D1725',
+};
+
+const theme = {
+  default: {
+    dark: stash.dark,
+    background: 'white',
+    wrong: stash.maroon,
+    white: 'white',
+    yellow: stash.yellow,
+    green: stash.green,
+    light: stash.light,
+    blue: stash.blue,
+    maroon: stash.maroon,
+    heading: stash.dark,
+    ...base,
+  },
+  dark: {
+    dark: stash.light,
+    wrong: stash.maroon,
+    white: '#F3F5F6',
+    background: stash.dark,
+    yellow: stash.yellow,
+    green: stash.green,
+    light: '#435058',
+    blue: stash.blue,
+    maroon: stash.maroon,
+    heading: stash.light,
+    ...base,
+  },
+  blue: {
+    dark: '#435058',
+    background: '#96BDC6',
+    wrong: '#C84630',
+    white: 'white',
+    yellow: stash.yellow,
+    green: stash.green,
+    light: stash.light,
+    blue: stash.blue,
+    maroon: stash.maroon,
+    heading: stash.light,
+    ...base,
+  },
+  orange: {
+    dark: '#101419',
+    background: '#F05D23',
+    wrong: '#101419',
+    white: '#FDFFFC',
+    yellow: stash.yellow,
+    green: '#1EA896',
+    light: stash.light,
+    blue: stash.blue,
+    maroon: stash.maroon,
+    heading: '#FDFFFC',
+    ...base,
+  },
+};
+// 000F08
+// #F3F5F6
+const media = Object.keys(base.sizes).reduce((acc, label) => {
   acc[label] = (...args) => css`
-    @media (min-width: ${theme.sizes[label]}px) {
+    @media (min-width: ${base.sizes[label]}px) {
       ${css(...args)}
     }
   `;

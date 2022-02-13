@@ -10,6 +10,7 @@ import Modal from './Modal';
 import DistributionChart from './DistributionChart';
 import useSiteContext from './SiteContext';
 import generateCopyText from './generateCopyText';
+import Button from './Button';
 
 const StatsButton = styled(IconButton)`
   grid-row: 2 / 3;
@@ -100,8 +101,9 @@ const Statistics = () => {
         <h3 className="text-center">Guess Distribution</h3>
         <DistributionChart stats={stats} />
 
-        <button
+        <Button
           className="share"
+          style="green"
           onClick={() => {
             const copyText = generateCopyText(attempts);
 
@@ -118,7 +120,7 @@ const Statistics = () => {
         >
           Share
           <BsShareFill style={{ marginLeft: '5px' }} />
-        </button>
+        </Button>
       </StatsModal>
     </>
   );

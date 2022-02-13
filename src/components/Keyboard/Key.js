@@ -39,7 +39,7 @@ const StyledKey = styled.button`
   background: ${({ theme, status }) =>
     status
       ? status === 'wrong'
-        ? theme.dark
+        ? theme.wrong
         : status === 'kinda'
         ? theme.yellow
         : status === 'correct'
@@ -48,7 +48,15 @@ const StyledKey = styled.button`
       : theme.light};
   color: dark;
   color: ${({ theme, status }) =>
-    status ? (status === 'wrong' ? 'white' : status === 'kinda' ? 'white' : status === 'correct' ? 'white' : theme.dark) : theme.dark};
+    status
+      ? status === 'wrong'
+        ? theme.white
+        : status === 'kinda'
+        ? theme.white
+        : status === 'correct'
+        ? theme.white
+        : theme.dark
+      : theme.dark};
   border-width: 0;
   text-transform: uppercase;
   font-size: 1.1rem;

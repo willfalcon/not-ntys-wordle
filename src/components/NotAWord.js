@@ -32,8 +32,7 @@ const Modal = styled(animated.div)`
   top: 25%;
   left: 50%;
   transform: translate(-50%, -50%);
-  color: white;
-  color: var(--white);
+  color: ${({ theme }) => theme.white};
   z-index: 21;
   p {
     z-index: 2;
@@ -46,8 +45,7 @@ const Modal = styled(animated.div)`
     height: 100%;
     top: 0;
     left: 0;
-    background: ${({ theme }) => theme.dark};
-    background: var(--dark);
+    background: ${({ theme }) => theme.background};
     opacity: 0.9;
     z-index: 1;
   }

@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { animated, useTransition } from 'react-spring';
 import { IoClose } from 'react-icons/io5';
-import { rgba } from 'polished';
+import { darken, rgba } from 'polished';
 
 import { media } from './theme';
 import { useOnClickOutside } from './hooks';
@@ -40,7 +40,6 @@ const Modal = ({ open, onClose, children, style, className }) => {
       )}
     </>
   );
-  return;
 };
 
 const StyledModal = styled(animated.div)`
@@ -55,8 +54,7 @@ const StyledModal = styled(animated.div)`
     transform: translate(-50%, -50%);
   `}
   z-index: 1;
-  background: white;
-  background: var(--white);
+  background: ${({ theme }) => darken(0.1, theme.background)};
   box-shadow: ${({ theme }) => theme.bs};
 
   padding: 3rem 1rem;
@@ -82,9 +80,7 @@ const StyledModal = styled(animated.div)`
   .share {
     text-transform: uppercase;
     background: ${({ theme }) => theme.green};
-    background: var(--green);
-    background: white;
-    color: var(--white);
+    color: ${({ theme }) => theme.color};
     font-weight: bold;
     border: 0;
     border-radius: 4px;
@@ -98,7 +94,7 @@ const Backdrop = styled(animated.div)`
   height: 100%;
   left: 0;
   top: 0;
-  background: var(--white);
+  background: ${({ theme }) => theme.background};
   opacity: 0.65;
   z-index: 1;
 `;

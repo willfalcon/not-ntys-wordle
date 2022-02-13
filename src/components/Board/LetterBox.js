@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
-import styled from 'styled-components';
-import theme, { media } from '../theme';
+import styled, { useTheme } from 'styled-components';
+import { media } from '../theme';
 
 import { useSpring, animated, config } from 'react-spring';
 
@@ -8,6 +8,7 @@ import useSiteContext from '../SiteContext';
 
 const LetterBox = ({ row, box, locked, example = false, exampleStatus = false }) => {
   const { letters, attempts } = useSiteContext();
+  const theme = useTheme();
 
   const letter = letters[row][box];
   const status = attempts[row][box];
@@ -95,15 +96,15 @@ const Box = styled(animated.div)`
     align-items: center;
   }
   .front {
-    background: white;
+    background: ${({ theme }) => theme.background};
   }
   .back {
     border: 2px solid;
     border-color: ${({ status, theme }) =>
-      status === 'correct' ? theme.green : status === 'kinda' ? theme.yellow : status === 'wrong' ? theme.dark : theme.light};
-    color: ${({ status, theme }) => (status ? 'white' : theme.dark)};
+      status === 'correct' ? theme.green : status === 'kinda' ? theme.yellow : status === 'wrong' ? theme.wrong : theme.light};
+    color: ${({ status, theme }) => (status ? theme.white : theme.dark)};
     background-color: ${({ status, theme }) =>
-      status === 'correct' ? theme.green : status === 'kinda' ? theme.yellow : status === 'wrong' ? theme.dark : 'transparent'};
+      status === 'correct' ? theme.green : status === 'kinda' ? theme.yellow : status === 'wrong' ? theme.wrong : 'transparent'};
     transform: rotateX(180deg);
   }
 `;

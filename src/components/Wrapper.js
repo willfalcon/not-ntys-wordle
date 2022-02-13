@@ -4,14 +4,18 @@ import styled, { ThemeProvider } from 'styled-components';
 import theme from './theme';
 import GlobalStyles from './GlobalStyles';
 import { SiteContextProvider } from './SiteContext';
-import { useWindowSize } from './hooks';
+import { useLocalStorage, useWindowSize } from './hooks';
 
 const Wrapper = ({ children }) => {
   const size = useWindowSize();
 
+  const [siteTheme, setTheme] = useLocalStorage('theme', 'default');
+
+  console.log(theme[siteTheme]);
+
   return (
-    <ThemeProvider theme={theme}>
-      <SiteContextProvider data={{}}>
+    <ThemeProvider theme={theme[siteTheme] || theme.default}>
+      <SiteContextProvider data={{ setTheme }}>
         <WrapperStyles windowHeight={size.height}>
           {children}
           <GlobalStyles />

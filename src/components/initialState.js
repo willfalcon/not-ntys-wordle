@@ -40,6 +40,8 @@ function useInitialState() {
 
   const [disabled, setDisabled] = useState(false);
 
+  const [siteTheme, setTheme] = useLocalStorage('default');
+
   function resetState() {
     setLetters(emptyLetters);
 
@@ -78,6 +80,8 @@ function useInitialState() {
     resetState,
     disabled,
     setDisabled,
+    siteTheme,
+    setTheme,
   };
 }
 
