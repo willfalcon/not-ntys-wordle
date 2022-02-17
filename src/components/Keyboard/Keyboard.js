@@ -52,6 +52,7 @@ const Keyboard = () => {
 };
 
 const StyledKeyboard = styled.div`
+  padding-top: 8px;
   .key {
     width: 10%;
     width: calc(10% - 6px);

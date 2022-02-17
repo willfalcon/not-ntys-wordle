@@ -11,8 +11,6 @@ const Wrapper = ({ children }) => {
 
   const [siteTheme, setTheme] = useLocalStorage('theme', 'default');
 
-  console.log(theme[siteTheme]);
-
   return (
     <ThemeProvider theme={theme[siteTheme] || theme.default}>
       <SiteContextProvider data={{ setTheme }}>

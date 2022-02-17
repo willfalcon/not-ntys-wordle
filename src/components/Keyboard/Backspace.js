@@ -5,6 +5,7 @@ import { MdOutlineBackspace } from 'react-icons/md';
 import { StyledKey } from './Key';
 
 import { KeyboardContext } from './KeyBoardHandling';
+import { media } from '../theme';
 
 const Backspace = () => {
   const { backspace } = useContext(KeyboardContext);
@@ -21,8 +22,12 @@ const BackspaceKey = styled(StyledKey)`
   align-items: center;
   width: auto;
   svg {
-    width: 20px;
-    height: 20px;
+    width: 16px;
+    height: 16px;
+    ${media.break`
+      width: 20px;
+      height: 20px;
+    `}
   }
 `;
 

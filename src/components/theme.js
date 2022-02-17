@@ -1,4 +1,3 @@
-import { Base } from 'airtable';
 import { css } from 'styled-components';
 
 const base = {
@@ -65,12 +64,25 @@ const theme = {
     background: '#F05D23',
     wrong: '#101419',
     white: '#FDFFFC',
-    yellow: stash.yellow,
-    green: '#1EA896',
+    yellow: '#F0A823',
+    green: '#19A889',
     light: stash.light,
     blue: stash.blue,
     maroon: stash.maroon,
     heading: '#FDFFFC',
+    ...base,
+  },
+  green: {
+    dark: '#201E50',
+    background: '#A9C5A0',
+    wrong: '#525B76',
+    white: 'white',
+    yellow: '#FF9F1C',
+    green: '#A9C5A0',
+    light: stash.light,
+    blue: stash.blue,
+    maroon: stash.maroon,
+    heading: stash.light,
     ...base,
   },
 };

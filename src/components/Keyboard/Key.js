@@ -30,7 +30,7 @@ const Key = ({ children }) => {
 };
 
 const StyledKey = styled.button`
-  height: 58px;
+  height: 53px;
   font-weight: bold;
   margin-right: 6px;
   border-radius: 4px;
@@ -73,6 +73,7 @@ const StyledKey = styled.button`
   @media (min-width: 768px) {
     padding: 2rem;
     font-size: 1.8rem;
+    height: 58px;
   }
   cursor: pointer;
 `;

@@ -1,4 +1,3 @@
-import { rgba } from 'polished';
 import React from 'react';
 import { animated, useTransition } from 'react-spring';
 import styled from 'styled-components';
@@ -45,7 +44,7 @@ const Modal = styled(animated.div)`
     height: 100%;
     top: 0;
     left: 0;
-    background: ${({ theme }) => theme.background};
+    background: ${({ theme }) => theme.dark};
     opacity: 0.9;
     z-index: 1;
   }
