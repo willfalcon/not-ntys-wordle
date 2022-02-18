@@ -1,5 +1,5 @@
 const fs = require('fs');
-const getWord = require('./getWord');
+const getWord = require('../getWord');
 
 exports.handler = async function (event) {
   const params = event.queryStringParameters;
