@@ -5,6 +5,8 @@ import theme from './theme';
 import GlobalStyles from './GlobalStyles';
 import { SiteContextProvider } from './SiteContext';
 import { useLocalStorage, useWindowSize } from './hooks';
+import Meta from './Meta';
+import Header from './Header';
 
 const Wrapper = ({ children }) => {
   const size = useWindowSize();
@@ -15,6 +17,8 @@ const Wrapper = ({ children }) => {
     <ThemeProvider theme={theme[siteTheme] || theme.default}>
       <SiteContextProvider data={{ setTheme }}>
         <WrapperStyles windowHeight={size.height}>
+          <Meta />
+          <Header />
           {children}
           <GlobalStyles />
         </WrapperStyles>

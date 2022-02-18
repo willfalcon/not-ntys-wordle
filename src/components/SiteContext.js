@@ -2,6 +2,7 @@ import React, { createContext, useContext, useState, useEffect } from 'react';
 import produce from 'immer';
 import { isSameDay } from 'date-fns';
 import NProgress from 'nprogress';
+import { differenceInDays, setHours, setMinutes, setSeconds } from 'date-fns';
 
 import updateStats from './updateStats';
 import Alert from './Alert';
@@ -41,8 +42,9 @@ const SiteContextProvider = ({ children, data }) => {
 
   const today = new Date();
 
-  console.log('what day is it?');
-  console.log(today);
+  const midnight = setSeconds(setMinutes(setHours(new Date(), 0), 0), 0);
+  const edition = differenceInDays(midnight, new Date('2022-02-05'));
+
   useEffect(() => {
     const lastDate = localStorage.getItem('last-date');
     if (!lastDate) {
@@ -153,6 +155,7 @@ const SiteContextProvider = ({ children, data }) => {
         disabled,
         setDisabled,
         resetState,
+        edition,
         ...data,
       }}
     >

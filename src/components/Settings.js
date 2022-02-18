@@ -26,6 +26,8 @@ const Settings = () => {
         <MdSettings />
       </SettingsButton>
       <SettingsModal open={open} onClose={() => setOpen(false)}>
+        <h2>Settings</h2>
+        <h3>Theme</h3>
         <ThemeSelector>
           <Color onClick={() => setTheme('default')} color={'#E1DEE3'}>
             Set Default Theme
