@@ -12,13 +12,18 @@ function getWord() {
       .select({
         maxRecords: 1,
         view: 'Grid view',
-        filterByFormula: `IS_SAME({Date}, TODAY(), 'day')`,
+        filterByFormula: `IS_SAME({Date}, DATETIME_FORMAT(
+          SET_TIMEZONE(
+            TODAY(), 'America/Chicago'),
+          'M/D/Y'
+        ), 'day')`,
       })
       .firstPage((error, records) => {
         if (error) {
           reject(error);
           return;
         }
+
         resolve(records[0].fields);
       });
   });

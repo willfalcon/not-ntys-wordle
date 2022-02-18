@@ -1,7 +1,7 @@
 const fs = require('fs');
-const getWord = require('../getWord');
+const getWord = require('./getWord');
 
-exports.handler = async function (event, context) {
+exports.handler = async function (event) {
   const params = event.queryStringParameters;
 
   const found = await searchList(params.word);

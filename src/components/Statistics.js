@@ -78,14 +78,14 @@ const Statistics = () => {
             )}
           </>
         )}
-        <h3 className="text-center">Statistics</h3>
+        <h3 className="text-center">Stats</h3>
         <div className="flex">
           <div className="stat">
             <span>{stats.gamesPlayed}</span>
             <span>Played</span>
           </div>
           <div className="stat">
-            <span>{(stats.gamesWon / (stats.gamesPlayed || 1)) * 100}</span>
+            <span>{Math.round((stats.gamesWon / (stats.gamesPlayed || 1)) * 100)}</span>
             <span>Win %</span>
           </div>
           <div className="stat">

@@ -41,6 +41,8 @@ const SiteContextProvider = ({ children, data }) => {
 
   const today = new Date();
 
+  console.log('what day is it?');
+  console.log(today);
   useEffect(() => {
     const lastDate = localStorage.getItem('last-date');
     if (!lastDate) {
