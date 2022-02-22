@@ -8,17 +8,21 @@ import { useLocalStorage, useWindowSize } from './hooks';
 import Meta from './Meta';
 import Header from './Header';
 
-const Wrapper = ({ children }) => {
+import Board from './Board/Board';
+import Keyboard from './Keyboard/Keyboard';
+const Wrapper = ({ children, word }) => {
+  console.log(children);
   const size = useWindowSize();
-
   const [siteTheme, setTheme] = useLocalStorage('theme', 'default');
 
   return (
     <ThemeProvider theme={theme[siteTheme] || theme.default}>
-      <SiteContextProvider data={{ setTheme }}>
+      <SiteContextProvider data={{ setTheme, word }}>
         <WrapperStyles windowHeight={size.height}>
           <Meta />
           <Header />
+          <Board />
+          <Keyboard />
           {children}
           <GlobalStyles />
         </WrapperStyles>

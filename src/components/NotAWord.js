@@ -6,11 +6,13 @@ import useSiteContext from './SiteContext';
 
 const NotAWord = () => {
   const { notAWordModal } = useSiteContext();
+
   const transition = useTransition(notAWordModal, {
     from: { opacity: 0 },
     enter: { opacity: 1 },
     leave: { opacity: 0 },
   });
+
   return (
     <>
       {transition(

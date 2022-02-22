@@ -22,7 +22,7 @@ const StatsButton = styled(IconButton)`
 `;
 
 const Statistics = () => {
-  const { statsOpen, setStatsOpen, attempts, useAlert, stats, solved, failed, resetState } = useSiteContext();
+  const { statsOpen, setStatsOpen, attempts, useAlert, stats, solved, failed, resetState, word } = useSiteContext();
 
   const showAlert = useAlert('Results copied to clipboard.');
   const midnight = setSeconds(setMinutes(setHours(new Date(), 0), 0), 0);
@@ -31,9 +31,7 @@ const Statistics = () => {
   const [answer, setAnswer] = useState(false);
 
   async function getAnswer() {
-    const rawRes = await fetch('/.netlify/functions/get-answer');
-    const answer = await rawRes.json();
-    setAnswer(answer);
+    setAnswer(word);
   }
   return (
     <>

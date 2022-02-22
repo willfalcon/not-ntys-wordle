@@ -1,22 +1,14 @@
-const fs = require('fs');
-const getWord = require('../getWord');
-
-exports.handler = async function (event) {
-  const params = event.queryStringParameters;
-
-  const found = await searchList(params.word);
-
+async function checkWord(attemptStr, word) {
+  const raw = await fetch(`/.netlify/functions/word-exists?word=${attemptStr}`);
+  const found = await raw.json();
   if (!found) {
     return {
-      statusCode: 200,
-      body: JSON.stringify({ found }),
+      found,
     };
   }
 
-  const record = await getWord().catch(err => console.error({ err }));
-  const word = record.Word;
   const correctArray = word.split('');
-  const attempt = params.word.split('');
+  const attempt = attemptStr.split('');
 
   const reference = attempt.map((letter, index) => ({
     attempt: letter,
@@ -45,17 +37,7 @@ exports.handler = async function (event) {
 
   const solved = result.filter(status => status !== 'correct');
 
-  return {
-    statusCode: 200,
-    body: JSON.stringify({ result, solved: !solved.length, found }),
-  };
-};
-
-function searchList(word) {
-  return new Promise(resolve => {
-    const contents = fs.readFileSync(require.resolve('./words5.txt'));
-    const lines = contents.toString().split('\n');
-    const isAWord = lines.includes(word);
-    resolve(isAWord);
-  });
+  return { result, solved: !solved.length, found };
 }
+
+export default checkWord;

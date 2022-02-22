@@ -8,6 +8,7 @@ import updateStats from './updateStats';
 import Alert from './Alert';
 
 import useInitialState from './initialState';
+import checkWord from '../lib/checkWord';
 
 const SiteContext = createContext();
 
@@ -64,10 +65,9 @@ const SiteContextProvider = ({ children, data }) => {
     const attempt = letters[workingRow];
 
     if (!attempt.includes('')) {
-      const rawCheckExists = await fetch(`/.netlify/functions/check-word?word=${attempt.join('')}`);
-      const checkExists = await rawCheckExists.json();
+      const check = await checkWord(attempt.join(''), data.word);
 
-      if (!checkExists.found) {
+      if (!check.found) {
         setNotAWord(true);
         setNotAWordModal(true);
         setTimeout(() => {
@@ -81,11 +81,8 @@ const SiteContextProvider = ({ children, data }) => {
         return;
       }
 
-      // const rawCheckAttempt = await fetch(`/.netlify/functions/check-attempt?word=${attempt.join('')}`);
-      // const checkAttempt = await rawCheckAttempt.json();
-
       const finishedAttempts = produce(attempts, draft => {
-        draft[workingRow] = checkExists.result;
+        draft[workingRow] = check.result;
       });
 
       setAttempts(finishedAttempts);
@@ -95,7 +92,7 @@ const SiteContextProvider = ({ children, data }) => {
       });
       setRowLocks(newRowLocks);
 
-      if (checkExists.solved) {
+      if (check.solved) {
         setWorkingRow(6);
         setWorkingBox(5);
         setSolved(true);
