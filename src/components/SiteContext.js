@@ -3,6 +3,7 @@ import produce from 'immer';
 import { isSameDay } from 'date-fns';
 import NProgress from 'nprogress';
 import { differenceInDays, setHours, setMinutes, setSeconds } from 'date-fns';
+import { navigate } from 'gatsby';
 
 import updateStats from './updateStats';
 import Alert from './Alert';
@@ -54,7 +55,7 @@ const SiteContextProvider = ({ children, data }) => {
       resetState(today);
     }
     if (failed || solved) {
-      setStatsOpen(true);
+      navigate('/stats');
     }
   }, []);
 
@@ -98,6 +99,9 @@ const SiteContextProvider = ({ children, data }) => {
         setSolved(true);
         updateStats(finishedAttempts, true, stats, setStats);
         setStatsOpen(true);
+        setTimeout(() => {
+          navigate('/stats');
+        }, 1000);
       } else {
         const newWorkingRow = workingRow === 6 ? workingRow : workingRow + 1;
         setWorkingRow(newWorkingRow);
@@ -127,6 +131,8 @@ const SiteContextProvider = ({ children, data }) => {
     return trigger;
   };
 
+  const [instructionsOpen, setInstructionsOpen] = useState(false);
+
   return (
     <SiteContext.Provider
       value={{
@@ -154,6 +160,8 @@ const SiteContextProvider = ({ children, data }) => {
         resetState,
         edition,
         ...data,
+        instructionsOpen,
+        setInstructionsOpen,
       }}
     >
       {children}

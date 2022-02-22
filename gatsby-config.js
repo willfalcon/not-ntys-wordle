@@ -53,7 +53,7 @@ module.exports = {
           {
             baseId: 'app8UrJKvRkUdKUI0',
             tableName: 'Words',
-            tableView: 'Grid view',
+            tableView: 'Today',
           },
         ],
       },
