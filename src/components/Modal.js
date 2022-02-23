@@ -6,7 +6,7 @@ import { IoClose } from 'react-icons/io5';
 import { darken, rgba } from 'polished';
 
 import { media } from './theme';
-import { useOnClickOutside } from './hooks';
+import { useOnClickOutside } from '../lib/hooks';
 
 const Modal = ({ open, onClose, children, style, className }) => {
   const transition = useTransition(open, {

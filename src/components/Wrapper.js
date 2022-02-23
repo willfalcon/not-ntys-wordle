@@ -5,7 +5,7 @@ import { useStaticQuery, graphql } from 'gatsby';
 import theme from './theme';
 import GlobalStyles from './GlobalStyles';
 import { SiteContextProvider } from './SiteContext';
-import { useLocalStorage, useWindowSize } from './hooks';
+import { useLocalStorage, useWindowSize } from '../lib/hooks';
 import Meta from './Meta';
 import Header from './Header';
 

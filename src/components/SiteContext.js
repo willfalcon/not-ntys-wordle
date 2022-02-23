@@ -5,15 +5,17 @@ import NProgress from 'nprogress';
 import { differenceInDays, setHours, setMinutes, setSeconds } from 'date-fns';
 import { navigate } from 'gatsby';
 
-import updateStats from './updateStats';
+import updateStats from '../lib/updateStats';
 import Alert from './Alert';
 
-import useInitialState from './initialState';
+import useInitialState from '../lib/initialState';
 import checkWord from '../lib/checkWord';
+import useKeyStatuses from '../lib/useKeyStatuses';
 
 const SiteContext = createContext();
 
 const SiteContextProvider = ({ children, data }) => {
+  const { keyStatuses, figureOutKeyStatuses, setKeyStatuses } = useKeyStatuses(data.word);
   const {
     statsOpen,
     setStatsOpen,
@@ -40,7 +42,7 @@ const SiteContextProvider = ({ children, data }) => {
     setStats,
     disabled,
     setDisabled,
-  } = useInitialState();
+  } = useInitialState(setKeyStatuses);
 
   const today = new Date();
 
@@ -112,6 +114,8 @@ const SiteContextProvider = ({ children, data }) => {
         }
         setWorkingBox(0);
       }
+
+      figureOutKeyStatuses(attempt);
     }
     setDisabled(false);
     NProgress.done();
@@ -162,6 +166,8 @@ const SiteContextProvider = ({ children, data }) => {
         ...data,
         instructionsOpen,
         setInstructionsOpen,
+        keyStatuses,
+        figureOutKeyStatuses,
       }}
     >
       {children}

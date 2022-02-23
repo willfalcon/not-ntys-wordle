@@ -1,15 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import { GoGraph } from 'react-icons/go';
 
 import { BsShareFill } from 'react-icons/bs';
 import { differenceInDays, setHours, setMinutes, setSeconds } from 'date-fns';
 
-import IconButton from './IconButton';
 import Modal from './Modal';
 import DistributionChart from './DistributionChart';
 import useSiteContext from './SiteContext';
-import generateCopyText from './generateCopyText';
+import generateCopyText from '../lib/generateCopyText';
 import Button from './Button';
 
 const Statistics = () => {
