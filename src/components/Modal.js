@@ -1,11 +1,12 @@
 import React from 'react';
 import styled from 'styled-components';
+import { Link, navigate } from 'gatsby';
 import { animated, useTransition } from 'react-spring';
 import { IoClose } from 'react-icons/io5';
 import { darken, rgba } from 'polished';
 
 import { media } from './theme';
-import { useOnClickOutside } from './hooks';
+import { useOnClickOutside } from '../lib/hooks';
 
 const Modal = ({ open, onClose, children, style, className }) => {
   const transition = useTransition(open, {
@@ -20,7 +21,9 @@ const Modal = ({ open, onClose, children, style, className }) => {
     leave: { opacity: 0 },
   });
 
-  const ref = useOnClickOutside(onClose);
+  const ref = useOnClickOutside(() => {
+    navigate('/');
+  });
 
   return (
     <>
@@ -30,9 +33,9 @@ const Modal = ({ open, onClose, children, style, className }) => {
           item && (
             <>
               <StyledModal className={className} style={{ ...styles, ...style }} ref={ref}>
-                <button className="close" onClick={onClose}>
+                <Link className="close" to="/">
                   <IoClose />
-                </button>
+                </Link>
                 {children}
               </StyledModal>
             </>
@@ -71,6 +74,7 @@ const StyledModal = styled(animated.div)`
     right: 10px;
     border: 0;
     font-weight: bold;
+    color: white;
     cursor: pointer;
     svg {
       width: 20px;

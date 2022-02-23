@@ -1,17 +1,36 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import styled from 'styled-components';
 
 import { KeyboardContext } from './KeyBoardHandling';
 import useSiteContext from '../SiteContext';
 
-const Key = ({ children }) => {
+const Key = ({ children, exampleStatus = false }) => {
   const { setNextLetter } = useContext(KeyboardContext);
-  const { letters, attempts, disabled } = useSiteContext();
+  const { letters, attempts, disabled, keyStatuses } = useSiteContext();
 
-  const rowUsed = letters.findIndex(row => row.includes(children));
-  const boxUsed = rowUsed >= 0 ? letters[rowUsed].findIndex(letter => letter === children) : false;
+  const [keyStatus, setStatus] = useState('unused');
 
-  const status = rowUsed >= 0 && boxUsed >= 0 ? attempts[rowUsed][boxUsed] : false;
+  useEffect(() => {
+    if (keyStatuses) {
+      keyStatuses.forEach(status => {
+        const keys = status.filter(status => status.key == children);
+        console.log(keys);
+        if (keys.length && keys[0].status !== keyStatus) {
+          setStatus(keys[0].status);
+        }
+      });
+    }
+  }, []);
+  useEffect(() => {
+    if (keyStatuses.length) {
+      const keys = keyStatuses[keyStatuses.length - 1].filter(status => status.key == children);
+      if (keys.length && keys[0].status !== keyStatus) {
+        setStatus(keys[0].status);
+      }
+    } else {
+      setStatus('unused');
+    }
+  }, [keyStatuses]);
 
   return (
     <StyledKey
@@ -19,7 +38,7 @@ const Key = ({ children }) => {
         setNextLetter(e.target.dataset.key);
       }}
       data-key={children}
-      status={status}
+      status={exampleStatus || keyStatus}
       className="key"
       aria-disabled={disabled}
       disabled={disabled}
@@ -36,6 +55,8 @@ const StyledKey = styled.button`
   border-radius: 4px;
   background: ${({ theme }) => theme.light};
   opacity: ${({ disabled }) => (disabled ? 0.75 : 1)};
+  transition: 0.25s;
+  transition-delay: 0.75s;
   background: ${({ theme, status }) =>
     status
       ? status === 'wrong'

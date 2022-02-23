@@ -3,15 +3,19 @@ import produce from 'immer';
 import { isSameDay } from 'date-fns';
 import NProgress from 'nprogress';
 import { differenceInDays, setHours, setMinutes, setSeconds } from 'date-fns';
+import { navigate } from 'gatsby';
 
-import updateStats from './updateStats';
+import updateStats from '../lib/updateStats';
 import Alert from './Alert';
 
-import useInitialState from './initialState';
+import useInitialState from '../lib/initialState';
+import checkWord from '../lib/checkWord';
+import useKeyStatuses from '../lib/useKeyStatuses';
 
 const SiteContext = createContext();
 
 const SiteContextProvider = ({ children, data }) => {
+  const { keyStatuses, figureOutKeyStatuses, setKeyStatuses } = useKeyStatuses(data.word);
   const {
     statsOpen,
     setStatsOpen,
@@ -38,7 +42,7 @@ const SiteContextProvider = ({ children, data }) => {
     setStats,
     disabled,
     setDisabled,
-  } = useInitialState();
+  } = useInitialState(setKeyStatuses);
 
   const today = new Date();
 
@@ -53,7 +57,7 @@ const SiteContextProvider = ({ children, data }) => {
       resetState(today);
     }
     if (failed || solved) {
-      setStatsOpen(true);
+      navigate('/stats');
     }
   }, []);
 
@@ -64,10 +68,9 @@ const SiteContextProvider = ({ children, data }) => {
     const attempt = letters[workingRow];
 
     if (!attempt.includes('')) {
-      const rawCheckExists = await fetch(`/.netlify/functions/check-word?word=${attempt.join('')}`);
-      const checkExists = await rawCheckExists.json();
+      const check = await checkWord(attempt.join(''), data.word);
 
-      if (!checkExists.found) {
+      if (!check.found) {
         setNotAWord(true);
         setNotAWordModal(true);
         setTimeout(() => {
@@ -81,11 +84,8 @@ const SiteContextProvider = ({ children, data }) => {
         return;
       }
 
-      // const rawCheckAttempt = await fetch(`/.netlify/functions/check-attempt?word=${attempt.join('')}`);
-      // const checkAttempt = await rawCheckAttempt.json();
-
       const finishedAttempts = produce(attempts, draft => {
-        draft[workingRow] = checkExists.result;
+        draft[workingRow] = check.result;
       });
 
       setAttempts(finishedAttempts);
@@ -95,12 +95,15 @@ const SiteContextProvider = ({ children, data }) => {
       });
       setRowLocks(newRowLocks);
 
-      if (checkExists.solved) {
+      if (check.solved) {
         setWorkingRow(6);
         setWorkingBox(5);
         setSolved(true);
         updateStats(finishedAttempts, true, stats, setStats);
         setStatsOpen(true);
+        setTimeout(() => {
+          navigate('/stats');
+        }, 1000);
       } else {
         const newWorkingRow = workingRow === 6 ? workingRow : workingRow + 1;
         setWorkingRow(newWorkingRow);
@@ -111,6 +114,8 @@ const SiteContextProvider = ({ children, data }) => {
         }
         setWorkingBox(0);
       }
+
+      figureOutKeyStatuses(attempt);
     }
     setDisabled(false);
     NProgress.done();
@@ -129,6 +134,8 @@ const SiteContextProvider = ({ children, data }) => {
     }
     return trigger;
   };
+
+  const [instructionsOpen, setInstructionsOpen] = useState(false);
 
   return (
     <SiteContext.Provider
@@ -157,6 +164,10 @@ const SiteContextProvider = ({ children, data }) => {
         resetState,
         edition,
         ...data,
+        instructionsOpen,
+        setInstructionsOpen,
+        keyStatuses,
+        figureOutKeyStatuses,
       }}
     >
       {children}

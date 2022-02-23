@@ -1,6 +1,7 @@
 import styled from 'styled-components';
+import { Link } from 'gatsby';
 
-const IconButton = styled.button`
+const IconButton = styled(Link)`
   background: transparent;
   height: 30px;
   width: 30px;

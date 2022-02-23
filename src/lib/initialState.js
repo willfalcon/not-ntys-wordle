@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useLocalStorage } from './hooks';
 import { blankStatsObj } from './updateStats';
 
-function useInitialState() {
+function useInitialState(setKeyStatuses) {
   const [statsOpen, setStatsOpen] = useState(false);
   const [workingRow, setWorkingRow] = useLocalStorage('workingRow', 0);
   const [workingBox, setWorkingBox] = useLocalStorage('workingBox', 0);
@@ -52,6 +52,7 @@ function useInitialState() {
     setWorkingRow(0);
     setWorkingBox(0);
     localStorage.setItem('last-date', new Date());
+    setKeyStatuses([]);
   }
 
   return {

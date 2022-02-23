@@ -1,7 +1,7 @@
 module.exports = {
   siteMetadata: {
     siteUrl: `https://willhawks.com/not-wordle`,
-    title: `NOT NYT's Wordle`,
+    title: `Skwahdle`,
   },
   plugins: [
     `gatsby-plugin-styled-components`,
@@ -42,6 +42,19 @@ module.exports = {
         // You can add multiple tracking ids and a pageview event will be fired for all of them.
         trackingIds: [
           'G-GSC8ZPG91C', // Google Analytics / GA
+        ],
+      },
+    },
+    {
+      resolve: `gatsby-source-airtable`,
+      options: {
+        apiKey: process.env.AIRTABLE_KEY,
+        tables: [
+          {
+            baseId: 'app8UrJKvRkUdKUI0',
+            tableName: 'Words',
+            tableView: 'Today',
+          },
         ],
       },
     },

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import produce from 'immer';
 
 import useSiteContext from '../SiteContext';
-import lettersList from '../lettersList';
+import lettersList from '../../lib/lettersList';
 
 const KeyboardContext = React.createContext();
 

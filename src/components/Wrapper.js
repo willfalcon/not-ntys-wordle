@@ -1,24 +1,45 @@
 import React from 'react';
 import styled, { ThemeProvider } from 'styled-components';
+import { useStaticQuery, graphql } from 'gatsby';
 
 import theme from './theme';
 import GlobalStyles from './GlobalStyles';
 import { SiteContextProvider } from './SiteContext';
-import { useLocalStorage, useWindowSize } from './hooks';
+import { useLocalStorage, useWindowSize } from '../lib/hooks';
 import Meta from './Meta';
 import Header from './Header';
 
+import Board from './Board/Board';
+import Keyboard from './Keyboard/Keyboard';
 const Wrapper = ({ children }) => {
   const size = useWindowSize();
-
   const [siteTheme, setTheme] = useLocalStorage('theme', 'default');
 
+  const data = useStaticQuery(graphql`
+    {
+      allAirtable {
+        edges {
+          node {
+            id
+            data {
+              Word
+              Date
+            }
+          }
+        }
+      }
+    }
+  `);
+
+  const word = data.allAirtable.edges[0].node.data.Word;
   return (
     <ThemeProvider theme={theme[siteTheme] || theme.default}>
-      <SiteContextProvider data={{ setTheme }}>
+      <SiteContextProvider data={{ setTheme, word }}>
         <WrapperStyles windowHeight={size.height}>
           <Meta />
           <Header />
+          <Board />
+          <Keyboard />
           {children}
           <GlobalStyles />
         </WrapperStyles>
