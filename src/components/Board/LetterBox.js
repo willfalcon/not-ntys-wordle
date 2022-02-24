@@ -1,12 +1,13 @@
 import React, { useEffect } from 'react';
-import styled, { useTheme } from 'styled-components';
-import { media } from '../theme';
 
+import styled, { useTheme } from 'styled-components';
 import { useSpring, animated, config } from 'react-spring';
+
+import { media } from '../theme';
 
 import useSiteContext from '../SiteContext';
 
-const LetterBox = ({ row, box, locked, example = false, exampleStatus = false }) => {
+const NewLetterBox = ({ row, box, locked, example = false, exampleStatus = false }) => {
   const { letters, attempts } = useSiteContext();
   const theme = useTheme();
 
@@ -48,9 +49,8 @@ const LetterBox = ({ row, box, locked, example = false, exampleStatus = false })
       }, box * 100);
     }
   }, [locked, box, api, innerApi, exampleStatus]);
-
   return (
-    <BoxWrapper style={{ ...styles }}>
+    <BoxWrapper style={styles}>
       <Box status={exampleStatus || status} style={{ transform: innerStyles.transform }}>
         <div className="front">{example || letter}</div>
         <div className="back">{example || letter}</div>
@@ -59,12 +59,45 @@ const LetterBox = ({ row, box, locked, example = false, exampleStatus = false })
   );
 };
 
+const Box = styled(animated.div)`
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+
+  text-transform: uppercase;
+  font-weight: bold;
+  font-size: 3.2rem;
+
+  .front,
+  .back {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    text-align: center;
+    backface-visibility: hidden;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .front {
+    background: ${({ theme }) => theme.background};
+  }
+  .back {
+    background-color: ${({ status, theme }) =>
+      status === 'correct' ? theme.green : status === 'kinda' ? theme.yellow : status === 'wrong' ? theme.wrong : 'transparent'};
+    color: ${({ status, theme }) => (status ? theme.white : theme.dark)};
+    transform: rotateX(180deg);
+  }
+`;
 const BoxWrapper = styled(animated.div)`
-  perspective: 1000px;
   width: 16vw;
   height: 16vw;
   border: 2px solid ${({ theme }) => theme.light};
   display: block;
+  perspective: 500px;
+  position: relative;
   @media (min-width: 375px) {
     width: 14vw;
     height: 14vw;
@@ -75,38 +108,4 @@ const BoxWrapper = styled(animated.div)`
   `}
 `;
 
-const Box = styled(animated.div)`
-  text-transform: uppercase;
-  font-weight: bold;
-  font-size: 3.2rem;
-
-  position: relative;
-  width: 100%;
-  height: 100%;
-  transform-style: preserve-3d;
-
-  .front,
-  .back {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    backface-visibility: hidden;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-  .front {
-    background: ${({ theme }) => theme.background};
-  }
-  .back {
-    border: 2px solid;
-    border-color: ${({ status, theme }) =>
-      status === 'correct' ? theme.green : status === 'kinda' ? theme.yellow : status === 'wrong' ? theme.wrong : theme.light};
-    color: ${({ status, theme }) => (status ? theme.white : theme.dark)};
-    background-color: ${({ status, theme }) =>
-      status === 'correct' ? theme.green : status === 'kinda' ? theme.yellow : status === 'wrong' ? theme.wrong : 'transparent'};
-    transform: rotateX(180deg);
-  }
-`;
-
-export default LetterBox;
+export default NewLetterBox;
