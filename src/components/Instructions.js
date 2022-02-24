@@ -10,6 +10,7 @@ import LetterBox from './Board/LetterBox';
 import { KeyRow } from './Keyboard/Keyboard';
 import ExampleKey from './Keyboard/ExampleKey';
 import useSiteContext from './SiteContext';
+import theme from './theme';
 
 const Instructions = () => {
   const { instructionsOpen, setInstructionsOpen } = useSiteContext();
@@ -154,9 +155,11 @@ const InstructionModal = styled(Modal)`
     margin-bottom: 0;
   }
   .tabs {
-    background: ${({ theme }) => theme.white};
+    background: ${({ theme }) => theme.background};
+    color: ${({ theme }) => theme.textColor};
     margin-bottom: 1rem;
     button {
+      color: ${({ theme }) => theme.textColor};
       background: transparent;
       margin-right: 5px;
       border: 0px;

@@ -22,6 +22,7 @@ const stash = {
 const theme = {
   default: {
     dark: stash.dark,
+    textColor: stash.dark,
     background: 'white',
     wrong: stash.maroon,
     white: 'white',
@@ -35,6 +36,7 @@ const theme = {
   },
   dark: {
     dark: stash.light,
+    textColor: stash.light,
     wrong: stash.maroon,
     white: '#F3F5F6',
     background: stash.dark,
@@ -48,6 +50,7 @@ const theme = {
   },
   blue: {
     dark: '#435058',
+    textColor: 'white',
     background: '#96BDC6',
     wrong: '#C84630',
     white: 'white',
@@ -61,6 +64,7 @@ const theme = {
   },
   orange: {
     dark: '#101419',
+    textColor: '#101419',
     background: '#F05D23',
     wrong: '#101419',
     white: '#FDFFFC',
@@ -74,6 +78,7 @@ const theme = {
   },
   green: {
     dark: '#201E50',
+    dark: 'white',
     background: '#A9C5A0',
     wrong: '#525B76',
     white: 'white',

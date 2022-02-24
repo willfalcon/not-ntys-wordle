@@ -59,6 +59,7 @@ const StyledModal = styled(animated.div)`
   z-index: 1;
   background: ${({ theme }) => darken(0.1, theme.background)};
   box-shadow: ${({ theme }) => theme.bs};
+  color: ${({ theme }) => theme.textColor};
 
   padding: 3rem 1rem;
   h2 {

@@ -83,11 +83,12 @@ const Box = styled(animated.div)`
   }
   .front {
     background: ${({ theme }) => theme.background};
+    color: ${({ theme }) => theme.textColor};
   }
   .back {
     background-color: ${({ status, theme }) =>
       status === 'correct' ? theme.green : status === 'kinda' ? theme.yellow : status === 'wrong' ? theme.wrong : 'transparent'};
-    color: ${({ status, theme }) => (status ? theme.white : theme.dark)};
+    color: ${({ status, theme }) => (status ? theme.white : theme.textColor)};
     transform: rotateX(180deg);
   }
 `;

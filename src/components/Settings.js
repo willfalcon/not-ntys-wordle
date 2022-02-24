@@ -40,6 +40,7 @@ const Settings = () => {
           resetState();
           setStatsOpen(false);
         }}
+        secondary
       >
         Reset Board
       </Button>
