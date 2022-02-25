@@ -14,7 +14,7 @@ const Key = ({ children, exampleStatus = false }) => {
     if (keyStatuses) {
       keyStatuses.forEach(status => {
         const keys = status.filter(status => status.key == children);
-        console.log(keys);
+
         if (keys.length && keys[0].status !== keyStatus) {
           setStatus(keys[0].status);
         }

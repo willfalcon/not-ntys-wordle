@@ -3,35 +3,35 @@ import React, { useEffect } from 'react';
 import styled, { useTheme } from 'styled-components';
 import { useSpring, animated, config } from 'react-spring';
 
+import Letter from './Letter';
 import { media } from '../theme';
 
 import useSiteContext from '../SiteContext';
 
-const NewLetterBox = ({ row, box, locked, example = false, exampleStatus = false }) => {
+const LetterBox = ({ row, box, locked, example = false, exampleStatus = false }) => {
   const { letters, attempts } = useSiteContext();
   const theme = useTheme();
 
   const letter = letters[row][box];
   const status = attempts[row][box];
 
-  const [styles, api] = useSpring(() => ({ transform: 'scale(1)', config: config.stiff }));
-  const [innerStyles, innerApi] = useSpring(() => ({ transform: 'rotateX(0deg)', config: config.slow }));
+  const [wrapperStyles, wrapperApi] = useSpring(() => ({ transform: 'scale(1)', config: config.stiff }));
 
   useEffect(() => {
     if (letter) {
-      api.start({
+      wrapperApi.start({
         from: { transform: 'scale(0.8)', opacity: 0, border: `2px solid ${theme.light}` },
         to: { transform: 'scale(1)', opacity: 1, border: `2px solid ${theme.maroon}` },
       });
     } else {
-      api.start({ border: `2px solid ${theme.light}` });
+      wrapperApi.start({ border: `2px solid ${theme.light}` });
     }
-  }, [letter, api]);
+  }, [letter, wrapperApi]);
 
   useEffect(() => {
     if (exampleStatus || locked) {
       setTimeout(() => {
-        api.start({
+        wrapperApi.start({
           from: {
             transform: 'scale(1)',
             opacity: 1,
@@ -43,55 +43,24 @@ const NewLetterBox = ({ row, box, locked, example = false, exampleStatus = false
             border: `2px solid transparent`,
           },
         });
-        innerApi.start({
-          transform: 'rotateX(180deg)',
-        });
+        // innerApi.start({
+        //   transform: 'rotateX(180deg)',
+        // });
       }, box * 100);
+      if (!locked) {
+        // innerApi.set({
+        //   transform: 'rotateX(0deg)',
+        // });
+      }
     }
-  }, [locked, box, api, innerApi, exampleStatus]);
+  }, [locked, box, wrapperApi, exampleStatus]);
   return (
-    <BoxWrapper style={styles}>
-      <Box status={exampleStatus || status} style={{ transform: innerStyles.transform }}>
-        <div className="front">{example || letter}</div>
-        <div className="back">{example || letter}</div>
-      </Box>
+    <BoxWrapper style={wrapperStyles}>
+      <Letter letter={letter} status={status} exampleStatus={exampleStatus} example={example} locked={locked} box={box} />
     </BoxWrapper>
   );
 };
 
-const Box = styled(animated.div)`
-  position: relative;
-  width: 100%;
-  height: 100%;
-  transform-style: preserve-3d;
-
-  text-transform: uppercase;
-  font-weight: bold;
-  font-size: 3.2rem;
-
-  .front,
-  .back {
-    position: absolute;
-    height: 100%;
-    width: 100%;
-    text-align: center;
-    backface-visibility: hidden;
-
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-  .front {
-    background: ${({ theme }) => theme.background};
-    color: ${({ theme }) => theme.textColor};
-  }
-  .back {
-    background-color: ${({ status, theme }) =>
-      status === 'correct' ? theme.green : status === 'kinda' ? theme.yellow : status === 'wrong' ? theme.wrong : 'transparent'};
-    color: ${({ status, theme }) => (status ? theme.white : theme.textColor)};
-    transform: rotateX(180deg);
-  }
-`;
 const BoxWrapper = styled(animated.div)`
   width: 16vw;
   height: 16vw;
@@ -109,4 +78,4 @@ const BoxWrapper = styled(animated.div)`
   `}
 `;
 
-export default NewLetterBox;
+export default LetterBox;

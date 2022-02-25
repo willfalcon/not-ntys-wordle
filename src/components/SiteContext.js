@@ -44,6 +44,22 @@ const SiteContextProvider = ({ children, data }) => {
     setDisabled,
   } = useInitialState(setKeyStatuses);
 
+  const [found, setFound] = useState('unknown');
+
+  useEffect(() => {
+    async function check(attempt) {
+      const { found } = await checkWord(attempt.join(''));
+      setFound(found ? 'found' : 'gibberish');
+    }
+
+    if (workingBox === 5) {
+      const tempAttempt = letters[workingRow > 5 ? 5 : workingRow];
+      check(tempAttempt);
+    } else {
+      setFound('unknown');
+    }
+  }, [letters, workingBox, workingRow]);
+
   const today = new Date();
 
   const midnight = setSeconds(setMinutes(setHours(new Date(), 0), 0), 0);
@@ -62,25 +78,35 @@ const SiteContextProvider = ({ children, data }) => {
   }, []);
 
   async function logAnswer() {
+    if (found === 'gibberish') {
+      idiot();
+      return;
+    }
+
     setDisabled(true);
     NProgress.start();
 
     const attempt = letters[workingRow];
 
+    function idiot() {
+      setNotAWord(true);
+      setNotAWordModal(true);
+      setTimeout(() => {
+        setNotAWord(false);
+      }, 300);
+      setTimeout(() => {
+        setNotAWordModal(false);
+      }, 2000);
+      setDisabled(false);
+      NProgress.done();
+      return;
+    }
+
     if (!attempt.includes('')) {
       const check = await checkWord(attempt.join(''), data.word);
-
+      // console.log(check);
       if (!check.found) {
-        setNotAWord(true);
-        setNotAWordModal(true);
-        setTimeout(() => {
-          setNotAWord(false);
-        }, 300);
-        setTimeout(() => {
-          setNotAWordModal(false);
-        }, 2000);
-        setDisabled(false);
-        NProgress.done();
+        idiot();
         return;
       }
 
@@ -100,7 +126,6 @@ const SiteContextProvider = ({ children, data }) => {
         setWorkingBox(5);
         setSolved(true);
         updateStats(finishedAttempts, true, stats, setStats);
-        setStatsOpen(true);
         setTimeout(() => {
           navigate('/stats');
         }, 1000);
@@ -110,7 +135,10 @@ const SiteContextProvider = ({ children, data }) => {
         if (newWorkingRow === 6) {
           setFailed(true);
           updateStats(finishedAttempts, false, stats, setStats);
-          setStatsOpen(true);
+
+          setTimeout(() => {
+            navigate('/stats');
+          }, 600);
         }
         setWorkingBox(0);
       }
@@ -168,6 +196,7 @@ const SiteContextProvider = ({ children, data }) => {
         setInstructionsOpen,
         keyStatuses,
         figureOutKeyStatuses,
+        found,
       }}
     >
       {children}

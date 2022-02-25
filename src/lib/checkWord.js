@@ -1,7 +1,7 @@
 async function checkWord(attemptStr, word) {
   const raw = await fetch(`/.netlify/functions/word-exists?word=${attemptStr}`);
   const found = await raw.json();
-  if (!found) {
+  if (!found || !word) {
     return {
       found,
     };
@@ -25,7 +25,7 @@ async function checkWord(attemptStr, word) {
     // if this is a right letter in the wrong spot,
     if (letter.status === 'kinda') {
       // if this is a correct letter in the wrong spot, but all the correct instances are account for, return false
-      if (!reference.filter(ref => ref.correct == letter.attempt && ref.status != 'correct').length) {
+      if (!reference.filter(ref => ref.correct === letter.attempt && ref.status !== 'correct').length) {
         // what witchcraft is this?
         return 'wrong';
       }
