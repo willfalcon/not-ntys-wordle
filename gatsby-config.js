@@ -1,6 +1,6 @@
 module.exports = {
   siteMetadata: {
-    siteUrl: `https://willhawks.com/not-wordle`,
+    siteUrl: `https://skwahdle.willhawks.com`,
     title: `Skwahdle`,
   },
   plugins: [
