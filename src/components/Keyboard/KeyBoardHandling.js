@@ -13,7 +13,12 @@ const KeyBoardHandling = ({ children }) => {
 
   const backspace = () => {
     if (!disabled) {
-      if (workingBox !== 0 && !solved) {
+      if (letters[workingRow][workingBox] && !solved) {
+        const newLetters = produce(letters, draft => {
+          draft[workingRow][workingBox] = '';
+        });
+        setLetters(newLetters);
+      } else if (workingBox > 0 && !solved) {
         const newLetters = produce(letters, draft => {
           draft[workingRow][workingBox - 1] = '';
         });
@@ -27,7 +32,7 @@ const KeyBoardHandling = ({ children }) => {
 
   const setNextLetter = key => {
     if (!disabled) {
-      if (workingBox !== 5) {
+      if (workingBox < 5) {
         const newLetters = produce(letters, draft => {
           draft[workingRow][workingBox] = key;
         });
@@ -48,11 +53,24 @@ const KeyBoardHandling = ({ children }) => {
     }
   };
 
+  function moveCursor(key) {
+    const rowLetters = letters[workingRow];
+    const lastLetter = rowLetters[4] ? 4 : rowLetters[3] ? 3 : rowLetters[2] ? 2 : rowLetters[1] ? 1 : rowLetters[0] ? 0 : false;
+    if (key === 'ArrowLeft' && workingBox > 0) {
+      setWorkingBox(workingBox - 1);
+    }
+    if (key === 'ArrowRight' && workingBox < 4 && lastLetter > workingBox - 1) {
+      setWorkingBox(workingBox + 1);
+    }
+  }
+
   const keypressHandler = e => {
     if (!disabled) {
       if (e.key === 'Meta' || e.key === 'Alt' || e.key === 'Control') {
         setSpecialKey(true);
         window.addEventListener('keyup', specialKeyUpHandler);
+      } else if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') {
+        moveCursor(e.key);
       } else if (e.key === 'Backspace') {
         backspace();
       } else if (specialKey) {
