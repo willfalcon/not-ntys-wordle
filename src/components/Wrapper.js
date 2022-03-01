@@ -1,11 +1,12 @@
 import React from 'react';
 import styled, { ThemeProvider } from 'styled-components';
 import { useStaticQuery, graphql } from 'gatsby';
+import { useLocalStorage } from 'react-use';
 
 import theme from './theme';
 import GlobalStyles from './GlobalStyles';
 import { SiteContextProvider } from './SiteContext';
-import { useLocalStorage, useWindowSize } from '../lib/hooks';
+import { useWindowSize } from '../lib/hooks';
 import Meta from './Meta';
 import Header from './Header';
 

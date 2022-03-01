@@ -1,4 +1,4 @@
-import { useLocalStorage } from './hooks';
+import { useLocalStorage } from 'react-use';
 import produce from 'immer';
 
 function useKeyStatuses(word) {

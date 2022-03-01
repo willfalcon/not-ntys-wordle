@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useLocalStorage } from './hooks';
+import { useLocalStorage } from 'react-use';
 import { blankStatsObj } from './updateStats';
 
 function useInitialState(setKeyStatuses) {

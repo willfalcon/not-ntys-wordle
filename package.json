@@ -47,6 +47,7 @@
     "react-icons": "^4.3.1",
     "react-motion": "^0.5.2",
     "react-spring": "^9.4.2",
+    "react-use": "^17.3.2",
     "styled-components": "^5.3.3"
   },
   "devDependencies": {
