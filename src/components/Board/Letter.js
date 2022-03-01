@@ -1,5 +1,7 @@
 import React, { useRef, useEffect, useState } from 'react';
 import styled from 'styled-components';
+import classNames from 'classnames';
+
 import { useSpring, animated, config } from 'react-spring';
 
 import useSiteContext from '../SiteContext';
@@ -47,7 +49,7 @@ const Letter = ({ exampleStatus, status, example, letter, locked, box, row }) =>
       }}
     >
       <div className="front">{example || letter}</div>
-      <div className="back">{example || letter}</div>
+      <div className={classNames('back', exampleStatus || status)}>{example || letter}</div>
     </Flip>
   );
 };
@@ -67,7 +69,8 @@ const Flip = styled(animated.button)`
   font-weight: bold;
   font-size: 3.2rem;
 
-  outline-color: ${({ theme }) => theme.maroon};
+  /* outline-color: ${({ theme }) => theme.maroon}; */
+  outline-color: var(--maroon);
   outline-width: 2px;
   outline-style: ${({ focus }) => (focus ? 'solid' : 'none')};
 
@@ -85,14 +88,31 @@ const Flip = styled(animated.button)`
     left: 0;
   }
   .front {
-    background: ${({ theme }) => theme.background};
-    color: ${({ theme }) => theme.textColor};
-    border: 2px solid ${({ theme }) => theme.light};
+    /* background: ${({ theme }) => theme.background}; */
+    background: var(--background);
+    /* color: ${({ theme }) => theme.textColor}; */
+    color: var(--textColor);
+    /* border: 2px solid ${({ theme }) => theme.light}; */
+    border: 2px solid var(--light);
   }
   .back {
-    background-color: ${({ status, theme }) =>
-      status === 'correct' ? theme.green : status === 'kinda' ? theme.yellow : status === 'wrong' ? theme.wrong : 'transparent'};
-    color: ${({ status, theme }) => (status ? theme.white : theme.textColor)};
+    /* background-color: ${({ status, theme }) =>
+      status === 'correct' ? theme.green : status === 'kinda' ? theme.yellow : status === 'wrong' ? theme.wrong : 'transparent'}; */
+    background: transparent;
+    color: var(--textColor);
+    &.correct {
+      background: var(--green);
+      color: var(--white);
+    }
+    &.kinda {
+      background: var(--yellow);
+      color: var(--white);
+    }
+    &.wrong {
+      background: var(--wrong);
+      color: var(--white);
+    }
+    /* color: ${({ status, theme }) => (status ? theme.white : theme.textColor)}; */
     transform: rotateX(180deg);
   }
 `;

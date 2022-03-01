@@ -34,7 +34,7 @@ const Wrapper = ({ children }) => {
   const word = data.allAirtable.edges[0].node.data.Word;
   return (
     <ThemeProvider theme={theme[siteTheme] || theme.default}>
-      <SiteContextProvider data={{ setTheme, word }}>
+      <SiteContextProvider data={{ siteTheme, setTheme, word }}>
         <WrapperStyles windowHeight={size.height}>
           <Meta />
           <Header />

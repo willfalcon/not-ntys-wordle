@@ -64,9 +64,9 @@ const StyledHeader = styled.header`
   grid-template-rows: auto 30px;
   padding: 2rem 1rem;
   max-width: 100%;
-  color: ${({ theme }) => theme.heading};
+  color: var(--heading);
   a {
-    color: ${({ theme }) => theme.heading};
+    color: var(--heading);
   }
 
   @media (min-width: 375px) {
@@ -79,11 +79,11 @@ const Heading = styled.h1`
   text-align: center;
   text-transform: uppercase;
   grid-column: 1 / -1;
-  border-bottom: 1px solid ${({ theme }) => theme.light};
+  border-bottom: 1px solid var(--light);
 
   margin: 0 0 1rem;
   a {
-    color: ${({ theme }) => theme.heading};
+    color: var(--heading);
     text-decoration: none;
   }
   @media (min-width: 375px) {

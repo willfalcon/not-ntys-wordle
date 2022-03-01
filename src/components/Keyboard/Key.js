@@ -1,5 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import styled from 'styled-components';
+import classNames from 'classnames';
 
 import { KeyboardContext } from './KeyBoardHandling';
 import useSiteContext from '../SiteContext';
@@ -39,7 +40,7 @@ const Key = ({ children, exampleStatus = false }) => {
       }}
       data-key={children}
       status={exampleStatus || keyStatus}
-      className="key"
+      className={classNames('key', keyStatus, exampleStatus)}
       aria-disabled={disabled}
       disabled={disabled}
     >
@@ -53,31 +54,25 @@ const StyledKey = styled.button`
   font-weight: bold;
   margin-right: 6px;
   border-radius: 4px;
-  background: ${({ theme }) => theme.light};
+  background: var(--light);
   opacity: ${({ disabled }) => (disabled ? 0.75 : 1)};
   transition: 0.25s;
   transition-delay: 0.75s;
-  background: ${({ theme, status }) =>
-    status
-      ? status === 'wrong'
-        ? theme.wrong
-        : status === 'kinda'
-        ? theme.yellow
-        : status === 'correct'
-        ? theme.green
-        : theme.light
-      : theme.light};
-  color: dark;
-  color: ${({ theme, status }) =>
-    status
-      ? status === 'wrong'
-        ? theme.white
-        : status === 'kinda'
-        ? theme.white
-        : status === 'correct'
-        ? theme.white
-        : theme.dark
-      : theme.dark};
+  background: var(--light);
+  color: var(--dark);
+  &.wrong {
+    background: var(--wrong);
+    color: var(--white);
+  }
+  &.kinda {
+    background: var(--yellow);
+    color: var(--white);
+  }
+  &.correct {
+    background: var(--green);
+    color: var(--white);
+  }
+
   border-width: 0;
   text-transform: uppercase;
   font-size: 1.1rem;
