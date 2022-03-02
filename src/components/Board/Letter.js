@@ -6,7 +6,7 @@ import { useSpring, animated, config } from 'react-spring';
 
 import useSiteContext from '../SiteContext';
 
-const Letter = ({ exampleStatus, status, example, letter, locked, box, row }) => {
+const Letter = ({ exampleStatus = false, status, example, letter, locked, box, row }) => {
   const flipStyles = useSpring({
     transform: locked ? 'rotateX(180deg)' : 'rotateX(0deg)',
     config: config.slow,
@@ -27,6 +27,8 @@ const Letter = ({ exampleStatus, status, example, letter, locked, box, row }) =>
       setFocus(false);
     }
   }, [workingRow, workingBox]);
+
+  console.log({ row, box, status });
 
   return (
     <Flip
@@ -49,7 +51,7 @@ const Letter = ({ exampleStatus, status, example, letter, locked, box, row }) =>
       }}
     >
       <div className="front">{example || letter}</div>
-      <div className={classNames('back', exampleStatus || status)}>{example || letter}</div>
+      <div className={`back ${exampleStatus || status || ''}`}>{example || letter}</div>
     </Flip>
   );
 };
