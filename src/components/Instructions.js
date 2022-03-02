@@ -45,11 +45,11 @@ const Instructions = () => {
         {!advanced ? (
           <>
             <Row example={true} row={0} className="example" style={{ justifyContent: 'flex-start' }}>
-              <LetterBox example="w" row={0} box={0} exampleStatus="correct" />
-              <LetterBox example="e" row={0} box={1} />
-              <LetterBox example="a" row={0} box={2} />
-              <LetterBox example="r" row={0} box={3} />
-              <LetterBox example="y" row={0} box={4} />
+              <LetterBox locked={true} example="w" row={0} box={0} exampleStatus="correct" />
+              <LetterBox locked={true} example="e" row={0} box={1} />
+              <LetterBox locked={true} example="a" row={0} box={2} />
+              <LetterBox locked={true} example="r" row={0} box={3} />
+              <LetterBox locked={true} example="y" row={0} box={4} />
             </Row>
 
             <p>
@@ -57,11 +57,11 @@ const Instructions = () => {
             </p>
 
             <Row example={true} row={1} className="example" style={{ justifyContent: 'flex-start' }}>
-              <LetterBox example="p" row={1} box={0} />
-              <LetterBox example="i" row={1} box={1} exampleStatus="kinda" />
-              <LetterBox example="l" row={1} box={2} />
-              <LetterBox example="l" row={1} box={3} />
-              <LetterBox example="s" row={1} box={4} />
+              <LetterBox locked={true} example="p" row={1} box={0} />
+              <LetterBox locked={true} example="i" row={1} box={1} exampleStatus="kinda" />
+              <LetterBox locked={true} example="l" row={1} box={2} />
+              <LetterBox locked={true} example="l" row={1} box={3} />
+              <LetterBox locked={true} example="s" row={1} box={4} />
             </Row>
 
             <p>
@@ -69,11 +69,11 @@ const Instructions = () => {
             </p>
 
             <Row example={true} row={2} className="example" style={{ justifyContent: 'flex-start' }}>
-              <LetterBox example="v" row={2} box={0} />
-              <LetterBox example="a" row={2} box={1} />
-              <LetterBox example="g" row={2} box={2} />
-              <LetterBox example="u" row={2} box={3} exampleStatus="wrong" />
-              <LetterBox example="e" row={2} box={4} />
+              <LetterBox locked={true} example="v" row={2} box={0} />
+              <LetterBox locked={true} example="a" row={2} box={1} />
+              <LetterBox locked={true} example="g" row={2} box={2} />
+              <LetterBox locked={true} example="u" row={2} box={3} exampleStatus="wrong" />
+              <LetterBox locked={true} example="e" row={2} box={4} />
             </Row>
 
             <p>
@@ -83,11 +83,11 @@ const Instructions = () => {
         ) : (
           <>
             <Row example={true} row={0} className="example">
-              <LetterBox example="e" row={0} box={0} exampleStatus="correct" />
-              <LetterBox example="n" row={0} box={1} />
-              <LetterBox example="t" row={0} box={2} />
-              <LetterBox example="e" row={0} box={3} exampleStatus="kinda" />
-              <LetterBox example="r" row={0} box={4} />
+              <LetterBox locked={true} example="e" row={0} box={0} exampleStatus="correct" />
+              <LetterBox locked={true} example="n" row={0} box={1} />
+              <LetterBox locked={true} example="t" row={0} box={2} />
+              <LetterBox locked={true} example="e" row={0} box={3} exampleStatus="kinda" />
+              <LetterBox locked={true} example="r" row={0} box={4} />
             </Row>
 
             <p>
@@ -112,11 +112,11 @@ const Instructions = () => {
             <p>Generally, colors on the keyboard match colors on the board.</p>
 
             <Row example={true} row={0} className="example">
-              <LetterBox example="e" row={0} box={0} exampleStatus="correct" />
-              <LetterBox example="b" row={0} box={1} />
-              <LetterBox example="o" row={0} box={2} />
-              <LetterBox example="n" row={0} box={3} exampleStatus="kinda" />
-              <LetterBox example="y" row={0} box={4} exampleStatus="correct" />
+              <LetterBox locked={true} example="e" row={0} box={0} exampleStatus="correct" />
+              <LetterBox locked={true} example="b" row={0} box={1} />
+              <LetterBox locked={true} example="o" row={0} box={2} />
+              <LetterBox locked={true} example="n" row={0} box={3} exampleStatus="kinda" />
+              <LetterBox locked={true} example="y" row={0} box={4} exampleStatus="correct" />
             </Row>
             <KeyRow>
               <ExampleKey>q</ExampleKey>
