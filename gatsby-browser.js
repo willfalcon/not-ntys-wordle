@@ -8,6 +8,8 @@
 import 'normalize.css';
 import 'nprogress/nprogress.css';
 import React from 'react';
+import LogRocket from 'logrocket';
+
 import Wrapper from './src/components/Wrapper';
 
 export const wrapPageElement = ({ element, props }) => {
@@ -15,4 +17,8 @@ export const wrapPageElement = ({ element, props }) => {
   // including location, data, etc - you don't need to pass it
 
   return <Wrapper>{element}</Wrapper>;
+};
+
+export const onClientEntry = () => {
+  LogRocket.init(`tjzgoo/skwahdle`);
 };

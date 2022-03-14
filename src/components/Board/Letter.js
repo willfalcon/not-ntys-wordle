@@ -28,8 +28,6 @@ const Letter = ({ exampleStatus = false, status, example, letter, locked, box, r
     }
   }, [workingRow, workingBox]);
 
-  console.log({ row, box, status });
-
   return (
     <Flip
       status={exampleStatus || status}

@@ -63,5 +63,12 @@ module.exports = {
       },
     },
     `gatsby-plugin-sitemap`,
+    {
+      resolve: '@sentry/gatsby',
+      options: {
+        dsn: 'https://aaf55f3cb62b4b9e86d137a96bef936d@o323807.ingest.sentry.io/6258680',
+        sampleRate: 0.7,
+      },
+    },
   ],
 };
