@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useLocalStorage } from 'react-use';
 import { blankStatsObj } from './updateStats';
 
@@ -6,7 +6,17 @@ function useInitialState(setKeyStatuses) {
   const [statsOpen, setStatsOpen] = useState(false);
   const [workingRow, setWorkingRow] = useLocalStorage('workingRow', 0);
   const [workingBox, setWorkingBox] = useLocalStorage('workingBox', 0);
-  const [sessionId] = useLocalStorage('session-id', null);
+
+  const [sessionId, setSessionId] = useState(null);
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const id = localStorage.getItem('session-id');
+      setSessionId(id);
+      console.log(id);
+    }
+  }, []);
+
   const emptyLetters = [
     ['', '', '', '', ''],
     ['', '', '', '', ''],
