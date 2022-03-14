@@ -42,6 +42,7 @@ const SiteContextProvider = ({ children, data }) => {
     setStats,
     disabled,
     setDisabled,
+    sessionId,
   } = useInitialState(setKeyStatuses);
 
   const [found, setFound] = useState('unknown');
@@ -197,6 +198,7 @@ const SiteContextProvider = ({ children, data }) => {
         keyStatuses,
         figureOutKeyStatuses,
         found,
+        sessionId,
       }}
     >
       {children}

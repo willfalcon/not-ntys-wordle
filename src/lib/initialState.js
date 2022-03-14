@@ -6,7 +6,7 @@ function useInitialState(setKeyStatuses) {
   const [statsOpen, setStatsOpen] = useState(false);
   const [workingRow, setWorkingRow] = useLocalStorage('workingRow', 0);
   const [workingBox, setWorkingBox] = useLocalStorage('workingBox', 0);
-
+  const sessionId = localStorage.getItem('session-id');
   const emptyLetters = [
     ['', '', '', '', ''],
     ['', '', '', '', ''],
@@ -83,6 +83,7 @@ function useInitialState(setKeyStatuses) {
     setDisabled,
     siteTheme,
     setTheme,
+    sessionId,
   };
 }
 

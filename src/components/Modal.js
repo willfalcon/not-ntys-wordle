@@ -7,8 +7,12 @@ import { darken, rgba } from 'polished';
 
 import { media } from './theme';
 import { useOnClickOutside } from '../lib/hooks';
+import useSiteContext from './SiteContext';
 
 const Modal = ({ open, onClose, children, style, className }) => {
+  const { sessionId, useAlert } = useSiteContext();
+  const showAlert = useAlert('Copied session ID.');
+
   const transition = useTransition(open, {
     from: { opacity: 0 },
     enter: { opacity: 1 },
@@ -25,6 +29,11 @@ const Modal = ({ open, onClose, children, style, className }) => {
     navigate('/');
   });
 
+  const copyID = () => {
+    navigator.clipboard.writeText(sessionId);
+    showAlert();
+  };
+
   return (
     <>
       {backdropTransition((styles, item) => item && <Backdrop style={styles} />)}
@@ -37,6 +46,9 @@ const Modal = ({ open, onClose, children, style, className }) => {
                   <IoClose />
                 </Link>
                 {children}
+                <button className="session-id" onClick={copyID}>
+                  {sessionId}
+                </button>
               </StyledModal>
             </>
           )
@@ -90,6 +102,17 @@ const StyledModal = styled(animated.div)`
     border: 0;
     border-radius: 4px;
     padding: 1rem 2rem;
+  }
+
+  .session-id {
+    background: transparent;
+    border: 0;
+    position: absolute;
+    right: 5px;
+    bottom: 5px;
+    opacity: 0.5;
+    cursor: pointer;
+    font-size: 14px;
   }
 `;
 

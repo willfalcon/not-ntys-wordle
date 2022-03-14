@@ -9,6 +9,7 @@ import 'normalize.css';
 import 'nprogress/nprogress.css';
 import React from 'react';
 import LogRocket from 'logrocket';
+import ShortUniqueId from 'short-unique-id';
 
 import Wrapper from './src/components/Wrapper';
 
@@ -19,6 +20,19 @@ export const wrapPageElement = ({ element, props }) => {
   return <Wrapper>{element}</Wrapper>;
 };
 
-export const onClientEntry = () => {
+function getSessionId() {
+  const id = localStorage.getItem('session-id');
+  if (!id) {
+    const uid = new ShortUniqueId({ length: 6 });
+    const newId = uid().toLowerCase();
+    localStorage.setItem('session-id', newId);
+    return newId;
+  }
+}
+
+export const onClientEntry = (_, options) => {
+  const sessionId = getSessionId();
+
   LogRocket.init(`tjzgoo/skwahdle`);
+  LogRocket.identify(sessionId);
 };

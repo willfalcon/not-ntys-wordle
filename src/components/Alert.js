@@ -13,9 +13,9 @@ const Alert = ({ showAlert, alertText }) => {
 };
 
 const StyledAlert = styled(animated.div)`
-  /* background: ${({ theme }) => theme.background}; */
-  background: var(--background);
-  color: white;
+  background: ${({ theme }) => theme.dark};
+  /* background: var(--background); */
+  color: ${({ theme }) => theme.light};
   position: absolute;
   top: 20%;
   left: 50%;
