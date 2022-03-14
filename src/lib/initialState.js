@@ -13,7 +13,6 @@ function useInitialState(setKeyStatuses) {
     if (typeof window !== 'undefined') {
       const id = localStorage.getItem('session-id');
       setSessionId(id);
-      console.log(id);
     }
   }, []);
 
