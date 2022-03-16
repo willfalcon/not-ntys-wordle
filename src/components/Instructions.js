@@ -10,7 +10,6 @@ import LetterBox from './Board/LetterBox';
 import { KeyRow } from './Keyboard/Keyboard';
 import ExampleKey from './Keyboard/ExampleKey';
 import useSiteContext from './SiteContext';
-import theme from './theme';
 
 const Instructions = () => {
   const { instructionsOpen, setInstructionsOpen } = useSiteContext();

@@ -74,11 +74,16 @@ const StyledModal = styled(animated.div)`
   color: ${({ theme }) => theme.textColor};
 
   padding: 3rem 1rem;
-  h2 {
+  h2,
+  h1 {
     margin: 0 0 2rem;
   }
-  h3 {
+  h3,
+  h1 {
     text-transform: uppercase;
+  }
+  h1 {
+    text-align: center;
   }
   .close {
     background: transparent;
